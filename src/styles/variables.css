@@ -1,0 +1,16 @@
+:root {
+    --container-width: 1520px;
+    --container-padding-x: 24px;
+    --container-padding-mobile-x: 16px;
+
+    --font-text: 'Manrope', sans-serif;
+    --font-title: 'Playfair Display', serif;
+
+    --color-bg: #1a1a1b;
+    --color-bg2: #161616;
+    --color-main: #ffffff;
+    /* --color-secondary: #d4af37; */
+    --color-secondary: #e5e4e2;
+
+    --transition-duration: 0.2s;
+}
