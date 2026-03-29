@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import { motion } from 'motion-v'
+import { ref } from 'vue'
+
+const isMenuOpen = ref(false)
 </script>
 
 <template>
@@ -11,29 +14,47 @@ import { motion } from 'motion-v'
         class="header"
     >
         <div class="header__left">
-            <div class="header__logo">
-                <img src="../../img/logo.svg" alt="Vue Cinema" class="logo__img" />
-            </div>
+            <button class="header__logo">
+                <RouterLink to="/"
+                    ><img src="../../img/logo.svg" alt="Vue Cinema" class="logo__img"
+                /></RouterLink>
+            </button>
             <nav class="header__nav">
                 <ul class="nav__list">
-                    <li><RouterLink to="/" class="list__item">Фильмы</RouterLink></li>
-                    <li><RouterLink to="/" class="list__item">Новости</RouterLink></li>
+                    <li><RouterLink to="/movies" class="list__item">Фильмы</RouterLink></li>
+                    <li><RouterLink to="/news" class="list__item">Новости</RouterLink></li>
                 </ul>
             </nav>
         </div>
         <ul class="header__buttons">
-            <li class="button__item button-search">
-                <button><img src="../../img/search.svg" class="button__img" alt="" /></button>
+            <li>
+                <RouterLink to="/movies" class="button__item button-search">
+                    <img src="../../img/search.svg" class="button__img" alt="" />
+                </RouterLink>
             </li>
-            <li class="button__item button-profile">
-                <button><img src="../../img/profile.svg" class="button__img" alt="" /></button>
+            <li>
+                <RouterLink to="/profile" class="button__item button-profile">
+                    <img src="../../img/profile.svg" class="button__img" alt="" />
+                </RouterLink>
             </li>
         </ul>
-        <div class="burger">burger</div>
+        <button
+            class="burger"
+            @click="isMenuOpen = !isMenuOpen"
+            :class="{ 'burger--active': isMenuOpen }"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </motion.header>
 </template>
 
 <style scoped>
+button:hover {
+    transform: scale(1.1);
+}
+
 .header {
     box-shadow: 0px 0px 2px var(--color-secondary);
     background-color: var(--color-bg2);
@@ -49,6 +70,34 @@ import { motion } from 'motion-v'
 
 .burger {
     display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 15px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 10;
+}
+
+.burger span {
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-main);
+    transition: all 0.3s ease;
+}
+
+.burger--active span:nth-child(1) {
+    transform: translateY(4px) rotate(45deg);
+}
+
+.burger--active span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger--active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
 }
 
 .header__left {
@@ -165,7 +214,7 @@ import { motion } from 'motion-v'
     }
 
     .burger {
-        display: block;
+        display: flex;
     }
 }
 </style>
