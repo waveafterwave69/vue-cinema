@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { motion } from 'motion-v'
 </script>
 
 <template>
-    <header class="header">
+    <motion.header
+        :initial="{ opacity: 0, y: -100 }"
+        :animate="{ opacity: 1, y: 0 }"
+        :transition="{ duration: 0.4 }"
+        class="header"
+    >
         <div class="header__left">
             <div class="header__logo">
                 <img src="../../img/logo.svg" alt="Vue Cinema" class="logo__img" />
@@ -24,7 +30,7 @@ import { RouterLink } from 'vue-router'
             </li>
         </ul>
         <div class="burger">burger</div>
-    </header>
+    </motion.header>
 </template>
 
 <style scoped>
