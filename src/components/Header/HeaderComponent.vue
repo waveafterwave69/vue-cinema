@@ -28,14 +28,18 @@ const isMenuOpen = ref(false)
         </div>
         <ul class="header__buttons">
             <li>
-                <RouterLink to="/movies" class="button__item button-search">
-                    <img src="../../img/search.svg" class="button__img" alt="" />
-                </RouterLink>
+                <button>
+                    <RouterLink to="/movies" class="button__item button-search">
+                        <img src="../../img/search.svg" class="button__img" alt="" />
+                    </RouterLink>
+                </button>
             </li>
             <li>
-                <RouterLink to="/profile" class="button__item button-profile">
-                    <img src="../../img/profile.svg" class="button__img" alt="" />
-                </RouterLink>
+                <button>
+                    <RouterLink to="/profile" class="button__item button-profile">
+                        <img src="../../img/profile.svg" class="button__img" alt="" />
+                    </RouterLink>
+                </button>
             </li>
         </ul>
         <button
@@ -206,7 +210,7 @@ button:hover {
     }
 
     .logo__img {
-        width: 57px;
+        width: 59px;
     }
 
     .header__buttons {
