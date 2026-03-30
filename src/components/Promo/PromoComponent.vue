@@ -14,9 +14,10 @@ onMounted(async () => {
 <template>
     <div v-if="movie" class="promo">
         <div class="promo__left">
-            <RouterLink class="promo__img-container" :to="`/movie/${movie.kinopoiskId}`"
-                ><img :src="movie.posterUrl" alt="" class="promo__img"
-            /></RouterLink>
+            <RouterLink class="promo__img-container" :to="`/movie/${movie.kinopoiskId}`">
+                <img :src="movie.posterUrl" alt="" class="promo__img" />
+                <p class="promo__img-new" v-if="movie.year === new Date().getFullYear()">Новинка</p>
+            </RouterLink>
         </div>
         <div class="promo__right">
             <h2 class="promo__title">{{ movie.nameRu || movie.nameEn }}</h2>
@@ -51,6 +52,7 @@ onMounted(async () => {
     width: 450px;
     overflow: hidden;
     border-radius: 10px;
+    position: relative;
 }
 
 .promo__img {
@@ -60,13 +62,27 @@ onMounted(async () => {
     transition: transform 0.3s ease;
 }
 
+.promo__img-new {
+    position: absolute;
+    z-index: 100;
+    background-color: #b41919;
+    color: var(--color-main);
+    top: 13px;
+    left: -75px;
+    transform: rotate(-25deg);
+    width: 300px;
+    padding: 3px 0px;
+    text-align: center;
+    font-size: 24px;
+}
+
 .promo__img-container:hover img {
     transform: scale(1.05);
     box-shadow: 0px 0px 2px var(--color-secondary);
 }
 
 .promo__img-container:hover {
-    box-shadow: 0px 0px 15px -3px var(--color-secondary);
+    box-shadow: 0px 0px 25px -20px var(--color-secondary);
 }
 
 .promo__title {
@@ -98,6 +114,6 @@ onMounted(async () => {
 }
 
 .promo__button:hover {
-    box-shadow: 0px 0px 15px -3px var(--color-secondary);
+    box-shadow: 0px 0px 15px -4px var(--color-secondary);
 }
 </style>
