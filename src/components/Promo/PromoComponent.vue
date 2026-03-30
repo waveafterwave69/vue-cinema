@@ -27,8 +27,16 @@ onMounted(async () => {
                 <p v-if="movie.ratingAgeLimits">
                     Возрастное ограничение: {{ formatAgeLabel(movie.ratingAgeLimits) }}
                 </p>
-                <p v-if="movie.ratingImdb">IMDB рейтинг: {{ movie.ratingImdb }}</p>
-                <p v-if="movie.ratingKinopoisk">Кинопоиск рейтинг: {{ movie.ratingKinopoisk }}</p>
+                <p v-if="movie.ratingImdb">
+                    <a target="_blank" :href="`https://www.imdb.com/title/${movie.imdbId}`"
+                        >IMDB рейтинг: {{ movie.ratingImdb }}</a
+                    >
+                </p>
+                <p v-if="movie.ratingKinopoisk">
+                    <a target="_blank" :href="`https://www.kinopoisk.ru/film/${movie.kinopoiskId}`"
+                        >Кинопоиск рейтинг: {{ movie.ratingKinopoisk }}</a
+                    >
+                </p>
             </div>
             <button class="promo__button">Смотреть</button>
         </div>
@@ -101,6 +109,11 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
+}
+
+.promo__info p a {
+    color: var(--color-main);
+    border-bottom: 1px solid var(--color-secondary);
 }
 
 .promo__button {
