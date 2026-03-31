@@ -1,18 +1,45 @@
 <script setup lang="ts">
 import { useGetRandomMovie } from '@/composables/useGetRandomMovie'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { formatAgeLabel } from '../utils/formatters'
 
 const { movie, getMovies } = useGetRandomMovie()
+const isLoading = ref(true)
 
 onMounted(async () => {
-    await getMovies()
+    try {
+        await getMovies()
+    } finally {
+        setTimeout(() => {
+            isLoading.value = false
+        }, 500)
+    }
 })
 </script>
 
 <template>
-    <div v-if="movie" class="promo__container">
-        <div class="promo">
+    <div class="promo__container">
+        <div v-if="isLoading" class="promo skeleton">
+            <div class="promo__left">
+                <div class="skeleton-item skeleton-img"></div>
+            </div>
+            <div class="promo__right">
+                <div class="promo__head">
+                    <div class="skeleton-item skeleton-title"></div>
+                    <div class="skeleton-item skeleton-age"></div>
+                </div>
+                <div class="skeleton-item skeleton-text"></div>
+                <div class="skeleton-item skeleton-text"></div>
+                <div class="skeleton-item skeleton-text short"></div>
+                <div class="promo__meta">
+                    <div class="skeleton-item skeleton-pill"></div>
+                    <div class="skeleton-item skeleton-pill"></div>
+                </div>
+                <div class="skeleton-item skeleton-btn"></div>
+            </div>
+        </div>
+
+        <div v-else-if="movie" class="promo">
             <div class="promo__left">
                 <RouterLink class="promo__img-wrapper" :to="`/movie/${movie.kinopoiskId}`">
                     <img :src="movie.posterUrl" alt="" class="promo__img" />
@@ -44,7 +71,7 @@ onMounted(async () => {
                     <div class="promo__ratings">
                         <a
                             v-if="movie.ratingImdb"
-                            :href="`https://www.imdb.com/title/${movie.imdbId}`"
+                            :href="`https://imdb.com{movie.imdbId}`"
                             target="_blank"
                             class="rating-pill imdb"
                         >
@@ -52,7 +79,7 @@ onMounted(async () => {
                         </a>
                         <a
                             v-if="movie.ratingKinopoisk"
-                            :href="`https://www.kinopoisk.ru/film/${movie.kinopoiskId}`"
+                            :href="`https://kinopoisk.ru{movie.kinopoiskId}`"
                             target="_blank"
                             class="rating-pill kp"
                         >
@@ -91,22 +118,68 @@ onMounted(async () => {
     width: 100%;
 }
 
+.skeleton-item {
+    background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite linear;
+    border-radius: 8px;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-img {
+    width: 100%;
+    height: 500px;
+    border-radius: 10px;
+}
+.skeleton-title {
+    width: 60%;
+    height: 48px;
+}
+.skeleton-age {
+    width: 50px;
+    height: 24px;
+    margin-top: 17px;
+}
+.skeleton-text {
+    width: 100%;
+    height: 18px;
+    margin-bottom: 12px;
+}
+.skeleton-text.short {
+    width: 40%;
+}
+.skeleton-pill {
+    width: 120px;
+    height: 36px;
+    border-radius: 100px;
+}
+.skeleton-btn {
+    width: 200px;
+    height: 56px;
+    border-radius: 12px;
+    margin-top: auto;
+}
+
+.promo__left {
+    position: relative;
+}
 .promo__img-wrapper {
     display: block;
     overflow: hidden;
     border-radius: 10px;
     position: relative;
 }
-
 .promo__img-wrapper:hover img {
     transform: scale(1.05);
-    box-shadow: 0px 0px 2px var(--color-secondary);
 }
-
-.promo__img-wrapper:hover {
-    box-shadow: 0px 0px 25px -20px var(--color-secondary);
-}
-
 .promo__img {
     width: 100%;
     height: 100%;
@@ -131,21 +204,18 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
 }
-
 .promo__head {
     display: flex;
     align-items: center;
     gap: 15px;
     margin-bottom: 20px;
 }
-
 .promo__title {
     font-size: 48px;
     font-weight: 800;
     line-height: 1.1;
     margin: 0;
 }
-
 .promo__age {
     padding: 2px 8px;
     border: 1px solid rgba(255, 255, 255, 0.4);
@@ -205,12 +275,17 @@ onMounted(async () => {
     backdrop-filter: blur(10px);
 }
 
-.rating-pill:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
 .rating-pill strong {
     color: #f5c518;
+}
+
+.rating-pill:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.promo__button:hover {
+    filter: brightness(1.15);
 }
 
 .promo__button {
@@ -220,19 +295,14 @@ onMounted(async () => {
     gap: 10px;
     width: fit-content;
     padding: 16px 48px;
-    background: var(--color-secondary);
-    color: var(--color-bg);
+    background: var(--color-secondary, #f5c518);
+    color: var(--color-bg2);
     border: none;
     border-radius: 12px;
     font-size: 18px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s;
-}
-
-.promo__button:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
 }
 
 @media (max-width: 1024px) {
@@ -243,68 +313,65 @@ onMounted(async () => {
     .promo__title {
         font-size: 36px;
     }
+    .skeleton-img {
+        height: 400px;
+    }
 }
 
 @media (max-width: 768px) {
-    .promo__container {
-        border-radius: 0;
-    }
     .promo {
         grid-template-columns: 1fr;
         text-align: center;
     }
-    .promo__img-wrapper {
+    .promo__img-wrapper,
+    .skeleton-img {
         max-width: 260px;
         margin: 0 auto;
+        height: 380px;
     }
-    .promo__head {
-        align-items: center;
+    .promo__head,
+    .promo__meta {
         justify-content: center;
     }
     .promo__meta {
         flex-direction: column;
         gap: 20px;
     }
-    .promo__button {
+    .promo__button,
+    .skeleton-btn {
         width: 100%;
-    }
-    .promo__age {
-        margin-top: 8px;
+        margin: 0 auto;
     }
 }
 
 @media (max-width: 425px) {
     .promo__text,
     .meta-item,
-    .promo__age {
+    .promo__age,
+    .skeleton-text,
+    .skeleton-age {
         display: none;
     }
-
-    .promo__meta {
-        margin-bottom: 20px;
-    }
-
-    .rating-pill {
-        font-size: 16px;
-    }
-
     .promo {
-        gap: 10px;
+        gap: 15px;
     }
-
-    .promo__container {
-        margin-top: 15px;
-    }
-
     .promo__title {
         font-size: 28px;
     }
-
+    .skeleton-title {
+        height: 30px;
+        width: 100%;
+    }
+    .promo__meta {
+        flex-direction: row;
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+    .promo__container {
+        min-height: auto;
+    }
     .promo__button {
         padding: 8px;
-        font-size: 16px;
-        max-width: 260px;
-        margin: 0 auto;
     }
 }
 </style>
