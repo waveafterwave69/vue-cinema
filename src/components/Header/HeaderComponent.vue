@@ -70,6 +70,7 @@ button:hover {
     position: sticky;
     top: 20px;
     margin-top: 20px;
+    z-index: 100;
 }
 
 .burger {
