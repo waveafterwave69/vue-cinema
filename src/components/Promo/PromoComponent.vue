@@ -212,7 +212,7 @@ onMounted(async () => {
 }
 .promo__title {
     font-size: 48px;
-    font-weight: 800;
+    font-weight: 700;
     line-height: 1.1;
     margin: 0;
 }
@@ -221,7 +221,6 @@ onMounted(async () => {
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 4px;
     font-size: 14px;
-    margin-top: 17px;
 }
 
 .promo__text {
