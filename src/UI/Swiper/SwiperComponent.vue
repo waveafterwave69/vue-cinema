@@ -7,7 +7,7 @@ import type { Movie } from '@/types/movies'
 interface Props {
     swiperItems: Movie[]
     swiperTitle: string
-    slidesPerView?: number // Теперь это значение для самого большого экрана
+    slidesPerView?: number
     autoplayDeelay?: number
 }
 
