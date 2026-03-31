@@ -192,7 +192,7 @@ onMounted(async () => {
     top: 15px;
     right: 15px;
     background: #e50914;
-    color: #fff;
+    color: var(--color-main);
     padding: 4px 12px;
     font-weight: 700;
     font-size: 12px;
@@ -271,7 +271,7 @@ onMounted(async () => {
     border-radius: 100px;
     background: rgba(255, 255, 255, 0.1);
     text-decoration: none;
-    color: #fff;
+    color: var(--color-main);
     backdrop-filter: blur(10px);
 }
 
