@@ -117,7 +117,7 @@ button:hover {
 }
 
 .logo__img {
-    width: 90px;
+    width: 80px;
 }
 
 .header__buttons {

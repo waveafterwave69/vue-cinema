@@ -6,4 +6,14 @@ export const moviesApi = {
         const response = await moviesBaseApi.get(`/collections?type=${collectionType}&page=${page}`)
         return response.data
     },
+
+    async getMovieInfo(movieId: string) {
+        const response = await moviesBaseApi.get(`/${movieId}`)
+        return response.data
+    },
+
+    async getMovieImages(movieId: string) {
+        const response = await moviesBaseApi.get(`/${movieId}/images?type=STILL&page=1`)
+        return response.data
+    },
 }

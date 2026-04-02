@@ -31,6 +31,8 @@ export const useGetRandomMovie = () => {
             } else {
                 movie.value = movieData.items[0]
             }
+
+            console.log(movie.value)
         } catch (err) {
             error.value = 'Не удалось загрузить фильм.'
             console.error(err)

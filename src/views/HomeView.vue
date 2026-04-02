@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import PromoComponent from '@/components/Promo/PromoComponent.vue'
 import SwiperComponent from '@/UI/Swiper/SwiperComponent.vue'
 import { moviesApi } from '@/services/movies'
 import type { Movie } from '@/types/movies'
+import HomePromo from '@/components/Home/Promo/HomePromo.vue'
 
 const bestFilms = ref<Movie[]>([])
 const currentPage = ref(1)
@@ -41,7 +41,7 @@ onMounted(() => {
 
 <template>
     <main>
-        <PromoComponent class="component__margin" />
+        <HomePromo class="component__margin" />
 
         <SwiperComponent
             v-if="bestFilms.length"
