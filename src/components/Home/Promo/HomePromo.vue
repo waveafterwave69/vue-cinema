@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGetRandomMovie } from '@/composables/useGetRandomMovie'
+import { formatAgeLabel } from '@/utils/formatters'
 import { onMounted, ref } from 'vue'
-import { formatAgeLabel } from '../utils/formatters'
 
 const { movie, getMovies } = useGetRandomMovie()
 const isLoading = ref(true)
@@ -275,7 +275,7 @@ onMounted(async () => {
 }
 
 .rating-pill strong {
-    color: #f5c518;
+    color: var(--color-gold);
 }
 
 .rating-pill:hover {
@@ -294,7 +294,7 @@ onMounted(async () => {
     gap: 10px;
     width: fit-content;
     padding: 16px 48px;
-    background: var(--color-secondary, #f5c518);
+    background: var(--color-secondary, var(--color-gold));
     color: var(--color-bg2);
     border: none;
     border-radius: 12px;

@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import type { Movie } from '@/types/movies'
+import { RouterLink } from 'vue-router'
 
 interface Props {
     swiperItems: Movie[]
@@ -56,9 +57,9 @@ const onReachEnd = () => {
             @reachEnd="onReachEnd"
         >
             <swiper-slide v-for="(item, index) in swiperItems" :key="item.kinopoiskId || index">
-                <div class="movie__card">
+                <RouterLink :to="`/movie/${item.kinopoiskId}`" class="movie__card">
                     <img :src="item.posterUrl" :alt="item.nameRu" class="movie__poster" />
-                </div>
+                </RouterLink>
             </swiper-slide>
         </swiper>
     </div>
