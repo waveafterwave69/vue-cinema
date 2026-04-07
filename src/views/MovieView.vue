@@ -24,8 +24,6 @@ onMounted(async () => {
     } finally {
         isLoading.value = false
     }
-
-    console.log(movie.value)
 })
 </script>
 

@@ -19,7 +19,6 @@ const promoImage = computed(() => {
     return movieImages.value[randomIndex]?.imageUrl
 })
 
-// Округляем рейтинг для звезд (например, 8.4 -> 4.2 звезды из 5)
 const starRating = computed(() => Math.round((props.movie.ratingKinopoisk || 0) / 2))
 
 onMounted(async () => {
@@ -88,7 +87,7 @@ onMounted(async () => {
 
 .promo__img {
     opacity: 0.3;
-    /* filter: blur(3px); */
+    filter: blur(3px);
     width: 100%;
     height: 100vh;
     position: absolute;
@@ -192,5 +191,105 @@ onMounted(async () => {
 
 .promo__btn--secondary:hover {
     background: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 1024px) {
+    .promo {
+        margin-top: 80px;
+    }
+
+    .promo__content {
+        max-width: 900px;
+    }
+
+    .promo__title {
+        font-size: 52px;
+        margin-bottom: 25px;
+        letter-spacing: 1px;
+    }
+
+    .promo__meta {
+        gap: 10px;
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .promo__rating {
+        gap: 3px;
+        padding: 4px 12px;
+    }
+
+    .promo__star {
+        font-size: 18px;
+    }
+
+    .promo__rating-num {
+        margin-left: 5px;
+    }
+
+    .promo__genres {
+        font-size: 14px;
+        margin-bottom: 35px;
+    }
+
+    .promo__actions {
+        gap: 13px;
+    }
+
+    .promo__btn {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .promo {
+        margin-top: 90px;
+    }
+
+    .promo__title {
+        font-size: 34px;
+        margin-bottom: 20px;
+        letter-spacing: 0px;
+    }
+
+    .promo__meta {
+        gap: 8px;
+        font-size: 16px;
+        flex-direction: column;
+        row-gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .promo__rating {
+        margin-bottom: 15px;
+    }
+
+    .promo__divider {
+        display: none;
+    }
+
+    .promo__rating {
+        gap: 2px;
+        padding: 3px 10px;
+    }
+
+    .promo__rating-num {
+        margin-left: 4px;
+    }
+
+    .promo__genres {
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+
+    .promo__actions {
+        gap: 10px;
+    }
+
+    .promo__btn {
+        padding: 10px 25px;
+        font-size: 15px;
+    }
 }
 </style>
