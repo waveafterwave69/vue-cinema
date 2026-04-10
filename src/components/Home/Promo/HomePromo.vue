@@ -338,7 +338,7 @@ onMounted(async () => {
     }
     .promo__button,
     .skeleton-btn {
-        width: 100%;
+        width: 90%;
         margin: 0 auto;
     }
 }
