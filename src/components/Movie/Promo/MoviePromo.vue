@@ -292,4 +292,10 @@ onMounted(async () => {
         font-size: 15px;
     }
 }
+
+@media (max-width: 425px) {
+    .promo__img {
+        height: 600px;
+    }
+}
 </style>
