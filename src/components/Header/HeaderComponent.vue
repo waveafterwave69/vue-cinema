@@ -61,7 +61,8 @@ button:hover {
 
 .header {
     box-shadow: 0px 0px 2px var(--color-secondary);
-    background-color: var(--color-bg2);
+    backdrop-filter: blur(8px);
+    background-color: #14141494;
     border-radius: 10px;
     padding: 0px 35px 0px 10px;
     display: flex;

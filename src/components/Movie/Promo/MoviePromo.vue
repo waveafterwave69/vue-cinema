@@ -62,7 +62,9 @@ onMounted(async () => {
                 }}</span>
 
                 <span v-if="movie.countries?.length" class="promo__divider">|</span>
-                <span>{{ movie.countries?.map((c) => c.country).join(', ') }}</span>
+                <span class="promo__countries">{{
+                    movie.countries?.map((c) => c.country).join(', ')
+                }}</span>
             </div>
 
             <p class="promo__genres">
@@ -72,6 +74,18 @@ onMounted(async () => {
             <div class="promo__actions">
                 <button class="promo__btn promo__btn--primary">Смотреть</button>
                 <button class="promo__btn promo__btn--secondary">О фильме</button>
+            </div>
+
+            <div class="promo__interactions">
+                <button class="icon__btn">
+                    <img src="../../../img/heart.png" alt="в избранное" />
+                </button>
+                <button class="icon__btn">
+                    <img src="../../../img/like.png" alt="понравилось" />
+                </button>
+                <button class="icon__btn">
+                    <img src="../../../img/dislike.png" alt="не понравилось" />
+                </button>
             </div>
         </div>
     </motion.div>
@@ -169,7 +183,6 @@ onMounted(async () => {
     border-radius: 8px;
     font-size: 18px;
     font-weight: 600;
-    cursor: pointer;
     transition: all 0.2s ease;
     border: none;
 }
@@ -191,6 +204,36 @@ onMounted(async () => {
 
 .promo__btn--secondary:hover {
     background: rgba(255, 255, 255, 0.3);
+}
+
+.promo__interactions {
+    margin-top: 40px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 20px;
+}
+
+.icon__btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.icon__btn img {
+    width: 25px;
+    opacity: 0.7;
+}
+
+.icon__btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 @media (max-width: 1024px) {
@@ -239,6 +282,20 @@ onMounted(async () => {
     .promo__btn {
         padding: 12px 30px;
         font-size: 16px;
+    }
+
+    .promo__interactions {
+        margin-top: 30px;
+        gap: 15px;
+    }
+
+    .icon__btn {
+        width: 54px;
+        height: 54px;
+    }
+
+    .icon__btn img {
+        width: 20px;
     }
 }
 
@@ -294,8 +351,40 @@ onMounted(async () => {
 }
 
 @media (max-width: 425px) {
+    .promo {
+        margin-top: 50px;
+    }
+
     .promo__img {
         height: 600px;
+    }
+
+    .promo__title {
+        font-size: 30px;
+    }
+
+    .promo__divider,
+    .promo__genres,
+    .promo__countries {
+        display: none;
+    }
+
+    .promo__meta {
+        margin-bottom: 30px;
+    }
+
+    .promo__interactions {
+        margin-top: 30px;
+        gap: 12px;
+    }
+
+    .icon__btn {
+        width: 52px;
+        height: 52px;
+    }
+
+    .icon__btn img {
+        width: 18px;
     }
 }
 </style>
