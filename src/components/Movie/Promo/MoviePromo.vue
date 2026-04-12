@@ -62,7 +62,9 @@ onMounted(async () => {
                 }}</span>
 
                 <span v-if="movie.countries?.length" class="promo__divider">|</span>
-                <span>{{ movie.countries?.map((c) => c.country).join(', ') }}</span>
+                <span class="promo__countries">{{
+                    movie.countries?.map((c) => c.country).join(', ')
+                }}</span>
             </div>
 
             <p class="promo__genres">
@@ -294,8 +296,22 @@ onMounted(async () => {
 }
 
 @media (max-width: 425px) {
+    .promo {
+        margin-top: 50px;
+    }
+
     .promo__img {
         height: 600px;
+    }
+
+    .promo__title {
+        font-size: 30px;
+    }
+
+    .promo__divider,
+    .promo__genres,
+    .promo__countries {
+        display: none;
     }
 }
 </style>
