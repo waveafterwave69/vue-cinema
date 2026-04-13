@@ -61,6 +61,12 @@ button:hover {
     transform: scale(1.1);
 }
 
+.container {
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+}
+
 .header {
     box-shadow: 0px 0px 2px var(--color-secondary);
     backdrop-filter: blur(8px);
@@ -70,10 +76,7 @@ button:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: sticky;
-    top: 20px;
     margin-top: 20px;
-    z-index: 100;
 }
 
 .burger {

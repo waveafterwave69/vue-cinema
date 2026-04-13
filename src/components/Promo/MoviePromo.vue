@@ -116,6 +116,7 @@ onMounted(async () => {
     max-width: 900px;
     text-align: center;
     z-index: 1;
+    height: calc(100vh - 75px);
 }
 
 .promo__title {
@@ -314,7 +315,11 @@ onMounted(async () => {
 
 @media (max-width: 425px) {
     .promo {
-        margin-top: 50px;
+        margin-top: 80px;
+    }
+
+    .promo__content {
+        height: 550px;
     }
 
     .promo__img {
