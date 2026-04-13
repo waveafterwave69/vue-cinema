@@ -294,7 +294,7 @@ onMounted(async () => {
     gap: 10px;
     width: fit-content;
     padding: 16px 48px;
-    background: var(--color-secondary, var(--color-gold));
+    background: var(--color-main, var(--color-gold));
     color: var(--color-bg2);
     border: none;
     border-radius: 12px;

@@ -7,56 +7,64 @@ const isMenuOpen = ref(false)
 </script>
 
 <template>
-    <motion.header
-        :initial="{ opacity: 0, y: -100 }"
-        :animate="{ opacity: 1, y: 0 }"
-        :transition="{ duration: 0.4 }"
-        class="header"
-    >
-        <div class="header__left">
-            <button class="header__logo">
-                <RouterLink to="/"
-                    ><img src="../../img/logo.svg" alt="Vue Cinema" class="logo__img"
-                /></RouterLink>
-            </button>
-            <nav class="header__nav">
-                <ul class="nav__list">
-                    <li><RouterLink to="/movies" class="list__item">Фильмы</RouterLink></li>
-                    <li><RouterLink to="/news" class="list__item">Новости</RouterLink></li>
-                </ul>
-            </nav>
-        </div>
-        <ul class="header__buttons">
-            <li>
-                <button>
-                    <RouterLink to="/movies" class="button__item button-search">
-                        <img src="../../img/search.svg" class="button__img" alt="" />
-                    </RouterLink>
-                </button>
-            </li>
-            <li>
-                <button>
-                    <RouterLink to="/profile" class="button__item button-profile">
-                        <img src="../../img/profile.svg" class="button__img" alt="" />
-                    </RouterLink>
-                </button>
-            </li>
-        </ul>
-        <button
-            class="burger"
-            @click="isMenuOpen = !isMenuOpen"
-            :class="{ 'burger--active': isMenuOpen }"
+    <div class="container">
+        <motion.header
+            :initial="{ opacity: 0, y: -100 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.4 }"
+            class="header"
         >
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </motion.header>
+            <div class="header__left">
+                <button class="header__logo">
+                    <RouterLink to="/"
+                        ><img src="../img/logo.svg" alt="Vue Cinema" class="logo__img"
+                    /></RouterLink>
+                </button>
+                <nav class="header__nav">
+                    <ul class="nav__list">
+                        <li><RouterLink to="/movies" class="list__item">Фильмы</RouterLink></li>
+                        <li><RouterLink to="/news" class="list__item">Новости</RouterLink></li>
+                    </ul>
+                </nav>
+            </div>
+            <ul class="header__buttons">
+                <li>
+                    <button>
+                        <RouterLink to="/movies" class="button__item button-search">
+                            <img src="../img/search.svg" class="button__img" alt="" />
+                        </RouterLink>
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <RouterLink to="/profile" class="button__item button-profile">
+                            <img src="../img/profile.svg" class="button__img" alt="" />
+                        </RouterLink>
+                    </button>
+                </li>
+            </ul>
+            <button
+                class="burger"
+                @click="isMenuOpen = !isMenuOpen"
+                :class="{ 'burger--active': isMenuOpen }"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </motion.header>
+    </div>
 </template>
 
 <style scoped>
 button:hover {
     transform: scale(1.1);
+}
+
+.container {
+    position: sticky;
+    top: 20px;
+    z-index: 100;
 }
 
 .header {
@@ -68,10 +76,7 @@ button:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: sticky;
-    top: 20px;
     margin-top: 20px;
-    z-index: 100;
 }
 
 .burger {
