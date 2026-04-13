@@ -72,19 +72,19 @@ onMounted(async () => {
             </p>
 
             <div class="promo__actions">
-                <button class="promo__btn promo__btn--primary">Смотреть</button>
-                <button class="promo__btn promo__btn--secondary">О фильме</button>
+                <button class="button-default">Смотреть</button>
+                <button class="button-glass">О фильме</button>
             </div>
 
             <div class="promo__interactions">
                 <button class="icon__btn">
-                    <img src="../../../img/heart.png" alt="в избранное" />
+                    <img src="../../img/heart.png" alt="в избранное" />
                 </button>
                 <button class="icon__btn">
-                    <img src="../../../img/like.png" alt="понравилось" />
+                    <img src="../../img/like.png" alt="понравилось" />
                 </button>
                 <button class="icon__btn">
-                    <img src="../../../img/dislike.png" alt="не понравилось" />
+                    <img src="../../img/dislike.png" alt="не понравилось" />
                 </button>
             </div>
         </div>
@@ -178,34 +178,6 @@ onMounted(async () => {
     justify-content: center;
 }
 
-.promo__btn {
-    padding: 14px 32px;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    border: none;
-}
-
-.promo__btn--primary {
-    background: var(--color-main);
-    color: var(--color-bg2);
-}
-
-.promo__btn--primary:hover {
-    background: #e2e2e2;
-}
-
-.promo__btn--secondary {
-    background: rgba(255, 255, 255, 0.2);
-    color: var(--color-main);
-    backdrop-filter: blur(10px);
-}
-
-.promo__btn--secondary:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
 .promo__interactions {
     margin-top: 40px;
     justify-content: center;
@@ -279,11 +251,6 @@ onMounted(async () => {
         gap: 13px;
     }
 
-    .promo__btn {
-        padding: 12px 30px;
-        font-size: 16px;
-    }
-
     .promo__interactions {
         margin-top: 30px;
         gap: 15px;
@@ -342,11 +309,6 @@ onMounted(async () => {
 
     .promo__actions {
         gap: 10px;
-    }
-
-    .promo__btn {
-        padding: 10px 25px;
-        font-size: 15px;
     }
 }
 

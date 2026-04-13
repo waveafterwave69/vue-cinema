@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import SwiperComponent from '@/UI/Swiper/SwiperComponent.vue'
 import { moviesApi } from '@/services/movies'
 import type { Movie } from '@/types/movies'
-import HomePromo from '@/components/Home/Promo/HomePromo.vue'
+import HomePromo from '@/components/Promo/HomePromo.vue'
 
 const bestFilms = ref<Movie[]>([])
 const currentPage = ref(1)
@@ -40,7 +40,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <main>
+    <main class="container">
         <HomePromo class="component__margin" />
 
         <SwiperComponent

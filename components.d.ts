@@ -11,9 +11,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    HeaderComponent: typeof import('./src/components/Header/HeaderComponent.vue')['default']
-    HomePromo: typeof import('./src/components/Home/Promo/HomePromo.vue')['default']
-    MoviePromo: typeof import('./src/components/Movie/Promo/MoviePromo.vue')['default']
+    HeaderComponent: typeof import('./src/components/HeaderComponent.vue')['default']
+    HomePromo: typeof import('./src/components/Promo/HomePromo.vue')['default']
+    MovieAbout: typeof import('./src/components/MovieAbout.vue')['default']
+    MoviePromo: typeof import('./src/components/Promo/MoviePromo.vue')['default']
     Promo: typeof import('./src/components/Promo/Promo.vue')['default']
     PromoComponent: typeof import('./src/components/Home/Header/Promo/PromoComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
