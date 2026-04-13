@@ -31,14 +31,14 @@ const isMenuOpen = ref(false)
                 <li>
                     <button>
                         <RouterLink to="/movies" class="button__item button-search">
-                            <img src="../../img/search.svg" class="button__img" alt="" />
+                            <img src="../img/search.svg" class="button__img" alt="" />
                         </RouterLink>
                     </button>
                 </li>
                 <li>
                     <button>
                         <RouterLink to="/profile" class="button__item button-profile">
-                            <img src="../../img/profile.svg" class="button__img" alt="" />
+                            <img src="../img/profile.svg" class="button__img" alt="" />
                         </RouterLink>
                     </button>
                 </li>
