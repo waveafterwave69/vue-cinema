@@ -17,7 +17,7 @@ declare module 'vue' {
     MoviePlayer: typeof import('./src/components/Movie/MoviePlayer.vue')['default']
     MoviePromo: typeof import('./src/components/Promo/MoviePromo.vue')['default']
     Promo: typeof import('./src/components/Promo/Promo.vue')['default']
-    PromoComponent: typeof import('./src/components/Home/Header/Promo/PromoComponent.vue')['default']
+    PromoComponent: typeof import('./src/components/Promo/PromoComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
