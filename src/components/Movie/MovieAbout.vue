@@ -161,5 +161,9 @@ console.log(props.movie)
         margin-top: 20px;
         padding-top: 20px;
     }
+
+    .description__short {
+        display: none;
+    }
 }
 </style>

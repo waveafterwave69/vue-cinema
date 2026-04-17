@@ -116,7 +116,7 @@ onMounted(async () => {
     max-width: 900px;
     text-align: center;
     z-index: 1;
-    height: calc(100vh - 75px);
+    height: calc(100vh - 175px);
 }
 
 .promo__title {
@@ -319,7 +319,7 @@ onMounted(async () => {
     }
 
     .promo__content {
-        height: 550px;
+        height: 480px;
     }
 
     .promo__img {
@@ -331,13 +331,12 @@ onMounted(async () => {
     }
 
     .promo__divider,
-    .promo__genres,
     .promo__countries {
         display: none;
     }
 
     .promo__meta {
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
 
     .promo__interactions {
