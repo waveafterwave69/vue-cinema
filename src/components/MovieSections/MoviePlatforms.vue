@@ -57,7 +57,7 @@ onMounted(async () => {
     justify-content: center;
     flex-wrap: wrap;
     align-items: center;
-    column-gap: 30px;
+    gap: 30px;
 }
 
 .platform__img {
@@ -72,7 +72,7 @@ onMounted(async () => {
 
     .platforms__list {
         margin-top: 50px;
-        column-gap: 30px;
+        gap: 30px;
     }
 
     .platform__img {
@@ -87,7 +87,7 @@ onMounted(async () => {
 
     .platforms__list {
         margin-top: 40px;
-        column-gap: 20px;
+        gap: 20px;
     }
 
     .platform__img {
@@ -102,7 +102,7 @@ onMounted(async () => {
 
     .platforms__list {
         margin-top: 35px;
-        column-gap: 20px;
+        gap: 20px;
     }
 
     .platform__img {
