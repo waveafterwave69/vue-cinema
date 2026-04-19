@@ -14,6 +14,7 @@ declare module 'vue' {
     HeaderComponent: typeof import('./src/components/HeaderComponent.vue')['default']
     HomePromo: typeof import('./src/components/HomeSections/HomePromo.vue')['default']
     MovieAbout: typeof import('./src/components/MovieSections/MovieAbout.vue')['default']
+    MovieFrames: typeof import('./src/components/MovieSections/MovieFrames.vue')['default']
     MoviePlatforms: typeof import('./src/components/MovieSections/MoviePlatforms.vue')['default']
     MoviePlayer: typeof import('./src/components/Movie/MoviePlayer.vue')['default']
     MoviePromo: typeof import('./src/components/MovieSections/MoviePromo.vue')['default']

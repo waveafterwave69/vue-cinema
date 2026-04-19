@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import MovieAbout from '@/components/MovieSections/MovieAbout.vue'
+import MovieFrames from '@/components/MovieSections/MovieFrames.vue'
 import MoviePlatforms from '@/components/MovieSections/MoviePlatforms.vue'
 import MoviePromo from '@/components/MovieSections/MoviePromo.vue'
 import { moviesApi } from '@/services/movies'
@@ -36,6 +37,7 @@ onMounted(async () => {
         <div v-if="movie && !isLoading">
             <MoviePromo :movie="movie" />
             <MovieAbout :movie="movie" />
+            <MovieFrames :movie="movie" />
             <MoviePlatforms />
         </div>
     </main>

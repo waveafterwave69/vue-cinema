@@ -9,7 +9,7 @@ defineProps<Props>()
 </script>
 
 <template>
-    <div class="about card">
+    <section class="about card">
         <div class="container">
             <h2 class="about__title">О фильме "{{ movie.nameRu }}"</h2>
             <div class="about__text">
@@ -30,7 +30,7 @@ defineProps<Props>()
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <style scoped>

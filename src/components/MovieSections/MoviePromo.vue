@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { moviesApi } from '@/services/movies'
+import { useGetMovieFrames } from '@/composables/useGetMovieFrames'
 import type { MovieFullInfo } from '@/types/movies'
 import { formatTimeToHoursAndMinutes } from '@/utils/formatters'
 import { motion } from 'motion-v'
-import { onMounted, ref, computed } from 'vue'
+import { computed } from 'vue'
 
 interface Props {
     movie: MovieFullInfo
 }
 
 const props = defineProps<Props>()
-const movieImages = ref<{ imageUrl: string }[]>([])
-const isLoading = ref(true)
+
+const { isLoading, movieImages } = useGetMovieFrames(props.movie.kinopoiskId)
 
 const promoImage = computed(() => {
     if (!movieImages.value.length) return props.movie.coverUrl || props.movie.posterUrl
@@ -20,15 +20,6 @@ const promoImage = computed(() => {
 })
 
 const starRating = computed(() => Math.round((props.movie.ratingKinopoisk || 0) / 2))
-
-onMounted(async () => {
-    try {
-        const imagesData = await moviesApi.getMovieImages(props.movie.kinopoiskId)
-        movieImages.value = imagesData.items
-    } finally {
-        isLoading.value = false
-    }
-})
 </script>
 
 <template>
