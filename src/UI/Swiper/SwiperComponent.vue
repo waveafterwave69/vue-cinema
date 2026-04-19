@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Swiper } from 'swiper/vue'
 import { Autoplay } from 'swiper/modules'
 import 'swiper/css'
-import type { Movie } from '@/types/movies'
-import { RouterLink } from 'vue-router'
 
 interface Props {
-    swiperItems: Movie[]
     swiperTitle: string
     slidesPerView?: number
+    slidesPerViewMedium?: number
+    slidesPerViewSmall?: number
     autoplayDeelay?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
     slidesPerView: 6,
+    slidesPerViewMedium: 4,
+    slidesPerViewSmall: 3,
     autoplayDeelay: 3000,
 })
 
@@ -25,11 +26,11 @@ const modules = [Autoplay]
 
 const swiperBreakpoints = {
     320: {
-        slidesPerView: 3,
+        slidesPerView: props.slidesPerViewSmall,
         spaceBetween: 10,
     },
     768: {
-        slidesPerView: 4,
+        slidesPerView: props.slidesPerViewMedium,
         spaceBetween: 15,
     },
     1200: {
@@ -56,11 +57,7 @@ const onReachEnd = () => {
             }"
             @reachEnd="onReachEnd"
         >
-            <swiper-slide v-for="(item, index) in swiperItems" :key="item.kinopoiskId || index">
-                <RouterLink :to="`/movie/${item.kinopoiskId}`" class="movie__card">
-                    <img :src="item.posterUrl" :alt="item.nameRu" class="movie__poster" />
-                </RouterLink>
-            </swiper-slide>
+            <slot />
         </swiper>
     </div>
 </template>
@@ -70,16 +67,6 @@ const onReachEnd = () => {
     font-size: 32px;
     margin-bottom: 20px;
     font-weight: 700;
-}
-
-.movie__poster {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 2 / 3;
-    border-radius: 8px;
-    display: block;
-    object-fit: cover;
-    background-color: var(--color-bg2);
 }
 
 @media (max-width: 768px) {

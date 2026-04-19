@@ -1,5 +1,5 @@
 import type { CollectionsType } from '@/types/movies'
-import { moviesBaseApi } from './baseApi'
+import { moviesBaseApi, moviesOldApi } from './baseApi'
 
 export const moviesApi = {
     async getMoviesCategory(collectionType: CollectionsType, page: number) {
@@ -54,6 +54,11 @@ export const moviesApi = {
 
     async getMovieSequelsPrequels(movieId: string) {
         const response = await moviesBaseApi.get(`/${movieId}/sequels_and_prequels`)
+        return response.data
+    },
+
+    async getMovieActors(movieId: string) {
+        const response = await moviesOldApi.get(`/staff?filmId=${movieId}`)
         return response.data
     },
 }

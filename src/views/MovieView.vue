@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import MovieAbout from '@/components/MovieSections/MovieAbout.vue'
+import MovieActors from '@/components/MovieSections/MovieActors.vue'
 import MovieFrames from '@/components/MovieSections/MovieFrames.vue'
 import MoviePlatforms from '@/components/MovieSections/MoviePlatforms.vue'
 import MoviePromo from '@/components/MovieSections/MoviePromo.vue'
@@ -10,6 +11,7 @@ import { useRoute } from 'vue-router'
 
 const movie = ref<MovieFullInfo | null>(null)
 const isLoading = ref(true)
+const showLater = ref(true)
 const error = ref<string | null>(null)
 
 const route = useRoute()
@@ -26,6 +28,9 @@ onMounted(async () => {
         console.error(err)
     } finally {
         isLoading.value = false
+        setTimeout(() => {
+            showLater.value = false
+        }, 500)
         console.log(movie.value)
     }
 })
@@ -34,16 +39,23 @@ onMounted(async () => {
 <template>
     <main>
         <img v-if="isLoading" class="loading" src="../img/spinner.svg" alt="" />
-        <div v-if="movie && !isLoading">
+        <div class="movie" v-if="movie && !isLoading">
             <MoviePromo :movie="movie" />
-            <MovieAbout :movie="movie" />
-            <MovieFrames :movie="movie" />
-            <MoviePlatforms />
+            <div class="movie" v-if="!showLater && !isLoading">
+                <MovieAbout :movie="movie" />
+                <MovieFrames :movie="movie" />
+                <MoviePlatforms />
+                <MovieActors :movie="movie" />
+            </div>
         </div>
     </main>
 </template>
 
 <style scoped>
+.movie {
+    margin-bottom: 50px;
+}
+
 .loading {
     position: absolute;
     top: 50%;

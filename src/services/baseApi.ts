@@ -6,3 +6,10 @@ export const moviesBaseApi = axios.create({
         'X-API-KEY': import.meta.env.VITE_API_KEY,
     },
 })
+
+export const moviesOldApi = axios.create({
+    baseURL: import.meta.env.VITE_OLD_API_KEY,
+    headers: {
+        'X-API-KEY': import.meta.env.VITE_API_KEY,
+    },
+})
