@@ -12,10 +12,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     HeaderComponent: typeof import('./src/components/HeaderComponent.vue')['default']
-    HomePromo: typeof import('./src/components/Promo/HomePromo.vue')['default']
-    MovieAbout: typeof import('./src/components/Movie/MovieAbout.vue')['default']
+    HomePromo: typeof import('./src/components/HomeSections/HomePromo.vue')['default']
+    MovieAbout: typeof import('./src/components/MovieSections/MovieAbout.vue')['default']
+    MoviePlatforms: typeof import('./src/components/MovieSections/MoviePlatforms.vue')['default']
     MoviePlayer: typeof import('./src/components/Movie/MoviePlayer.vue')['default']
-    MoviePromo: typeof import('./src/components/Promo/MoviePromo.vue')['default']
+    MoviePromo: typeof import('./src/components/MovieSections/MoviePromo.vue')['default']
+    MovieSource: typeof import('./src/components/Movie/MovieSource.vue')['default']
     Promo: typeof import('./src/components/Promo/Promo.vue')['default']
     PromoComponent: typeof import('./src/components/Promo/PromoComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

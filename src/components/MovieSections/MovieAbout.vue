@@ -5,13 +5,11 @@ interface Props {
     movie: MovieFullInfo
 }
 
-const props = defineProps<Props>()
-
-console.log(props.movie)
+defineProps<Props>()
 </script>
 
 <template>
-    <div class="about">
+    <div class="about card">
         <div class="container">
             <h2 class="about__title">О фильме "{{ movie.nameRu }}"</h2>
             <div class="about__text">
@@ -36,12 +34,6 @@ console.log(props.movie)
 </template>
 
 <style scoped>
-.about {
-    margin-bottom: 1000px;
-    background-color: var(--color-bg2);
-    padding: 50px 0px;
-}
-
 .description__short {
     font-size: 20px;
     font-weight: 500;
@@ -86,10 +78,6 @@ console.log(props.movie)
 }
 
 @media (max-width: 1024px) {
-    .about {
-        padding: 40px 0px;
-    }
-
     .description__short {
         font-size: 19px;
     }
@@ -120,10 +108,6 @@ console.log(props.movie)
 }
 
 @media (max-width: 768px) {
-    .about {
-        padding: 35px 0px;
-    }
-
     .description__short {
         font-size: 18px;
     }
@@ -153,10 +137,6 @@ console.log(props.movie)
 }
 
 @media (max-width: 425px) {
-    .about {
-        padding: 30px 0px;
-    }
-
     .about-card__footer {
         margin-top: 20px;
         padding-top: 20px;
