@@ -69,7 +69,7 @@ defineProps<Props>()
 .genres__list {
     display: flex;
     flex-wrap: wrap;
-    column-gap: 10px;
+    gap: 10px;
 }
 
 .genre__tag {
@@ -98,7 +98,7 @@ defineProps<Props>()
     }
 
     .genres__list {
-        column-gap: 10px;
+        gap: 10px;
     }
 
     .genre__tag {
@@ -127,7 +127,7 @@ defineProps<Props>()
     }
 
     .genres__list {
-        column-gap: 8px;
+        gap: 8px;
     }
 
     .genre__tag {
