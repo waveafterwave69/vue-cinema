@@ -23,6 +23,10 @@ const handleShowFrames = () => {
     }
 }
 
+const handleResetFrames = () => {
+    maxFrames.value = 8
+}
+
 const showFrames = computed(() => {
     return movieImages.value.slice(0, maxFrames.value)
 })
@@ -58,12 +62,20 @@ const closeImage = () => {
                 </li>
             </ul>
 
-            <button
-                @click="handleShowFrames"
-                :class="['button-glass', 'more-button', !isMaxFrames && 'button-blocked']"
-            >
-                Показать ещё
-            </button>
+            <div class="button__row">
+                <button
+                    @click="handleResetFrames"
+                    :class="['button-glass', 'more-button', maxFrames < 9 && 'button-blocked']"
+                >
+                    Скрыть
+                </button>
+                <button
+                    @click="handleShowFrames"
+                    :class="['button-glass', 'more-button', !isMaxFrames && 'button-blocked']"
+                >
+                    Больше
+                </button>
+            </div>
         </div>
 
         <Transition name="fade">
@@ -142,10 +154,12 @@ const closeImage = () => {
     opacity: 0;
 }
 
-.more-button {
-    margin: 0 auto;
-    display: flex;
+.button__row {
     margin-top: 25px;
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    justify-content: center;
 }
 
 .button-blocked {
@@ -193,6 +207,11 @@ const closeImage = () => {
 
     .frames__list {
         grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+
+    .button__row {
+        margin-top: 25px;
+        column-gap: 10px;
     }
 }
 </style>
