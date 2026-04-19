@@ -28,7 +28,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <section class="platforms card">
+    <section v-if="platforms" class="platforms card">
         <div class="container">
             <h2 class="about__title">Другие платформы для просмотра</h2>
             <ul class="platforms__list">
