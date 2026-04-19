@@ -6,11 +6,15 @@ import 'swiper/css'
 interface Props {
     swiperTitle: string
     slidesPerView?: number
+    slidesPerViewMedium?: number
+    slidesPerViewSmall?: number
     autoplayDeelay?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
     slidesPerView: 6,
+    slidesPerViewMedium: 4,
+    slidesPerViewSmall: 3,
     autoplayDeelay: 3000,
 })
 
@@ -22,11 +26,11 @@ const modules = [Autoplay]
 
 const swiperBreakpoints = {
     320: {
-        slidesPerView: 3,
+        slidesPerView: props.slidesPerViewSmall,
         spaceBetween: 10,
     },
     768: {
-        slidesPerView: 4,
+        slidesPerView: props.slidesPerViewMedium,
         spaceBetween: 15,
     },
     1200: {

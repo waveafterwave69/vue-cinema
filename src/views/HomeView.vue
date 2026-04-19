@@ -4,7 +4,6 @@ import { SwiperSlide } from 'swiper/vue'
 import SwiperComponent from '@/UI/Swiper/SwiperComponent.vue'
 import HomePromo from '@/components/HomeSections/HomePromo.vue'
 import { moviesApi } from '@/services/movies'
-import 'swiper/css'
 import type { Movie } from '@/types/movies'
 
 const bestFilms = ref<Movie[]>([])
