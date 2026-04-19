@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import MovieAbout from '@/components/Movie/MovieAbout.vue'
-import MoviePromo from '@/components/Promo/MoviePromo.vue'
+import MovieAbout from '@/components/MovieSections/MovieAbout.vue'
+import MovieFrames from '@/components/MovieSections/MovieFrames.vue'
+import MoviePlatforms from '@/components/MovieSections/MoviePlatforms.vue'
+import MoviePromo from '@/components/MovieSections/MoviePromo.vue'
 import { moviesApi } from '@/services/movies'
 import type { MovieFullInfo } from '@/types/movies'
 import { onMounted, ref } from 'vue'
@@ -24,6 +26,7 @@ onMounted(async () => {
         console.error(err)
     } finally {
         isLoading.value = false
+        console.log(movie.value)
     }
 })
 </script>
@@ -34,6 +37,8 @@ onMounted(async () => {
         <div v-if="movie && !isLoading">
             <MoviePromo :movie="movie" />
             <MovieAbout :movie="movie" />
+            <MovieFrames :movie="movie" />
+            <MoviePlatforms />
         </div>
     </main>
 </template>

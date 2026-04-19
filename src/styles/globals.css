@@ -11,7 +11,7 @@ svg * {
 body {
     font-family: var(--font-text);
     color: var(--color-main);
-    background: radial-gradient(circle, #1e1e1f 0%, #121213 100%);
+    background: radial-gradient(circle, #212122 0%, #121213 100%);
     font-size: 17px;
 }
 
@@ -32,6 +32,11 @@ h2 {
 h3 {
     font-size: 32px;
     font-weight: 600;
+}
+
+.card {
+    background-color: var(--color-bg2);
+    padding: 50px 0px;
 }
 
 .button-default {
@@ -90,6 +95,10 @@ a:focus-visible {
     h3 {
         font-size: 28px;
     }
+
+    .card {
+        padding: 40px 0px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -106,6 +115,10 @@ a:focus-visible {
     h3 {
         font-size: 22px;
     }
+
+    .card {
+        padding: 35px 0px;
+    }
 }
 
 @media (max-width: 425px) {
@@ -119,5 +132,9 @@ a:focus-visible {
 
     h3 {
         font-size: 20px;
+    }
+
+    .card {
+        padding: 30px 0px;
     }
 }

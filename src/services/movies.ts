@@ -16,4 +16,44 @@ export const moviesApi = {
         const response = await moviesBaseApi.get(`/${movieId}/images?type=STILL&page=1`)
         return response.data
     },
+
+    async getMovieBoxOffice(movieId: string) {
+        const response = await moviesBaseApi.get(`/${movieId}/box_office`)
+        return response.data
+    },
+
+    async getMovieAwards(movieId: string) {
+        const response = await moviesBaseApi.get(`/${movieId}/awards`)
+        return response.data
+    },
+
+    async getMovieVideos(movieId: string) {
+        const response = await moviesBaseApi.get(`/${movieId}/videos`)
+        return response.data
+    },
+
+    async getMovieSimilars(movieId: string) {
+        const response = await moviesBaseApi.get(`/${movieId}/similars`)
+        return response.data
+    },
+
+    async getMovieRelations(movieId: string) {
+        const response = await moviesBaseApi.get(`/${movieId}/relations`)
+        return response.data
+    },
+
+    async getMovieReviews(movieId: string) {
+        const response = await moviesBaseApi.get(`/${movieId}/reviews`)
+        return response.data
+    },
+
+    async getMovieOtherSource(movieId: string) {
+        const response = await moviesBaseApi.get(`/${movieId}/external_sources`)
+        return response.data.items
+    },
+
+    async getMovieSequelsPrequels(movieId: string) {
+        const response = await moviesBaseApi.get(`/${movieId}/sequels_and_prequels`)
+        return response.data
+    },
 }
