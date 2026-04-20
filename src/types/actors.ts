@@ -6,4 +6,5 @@ export interface Actor {
     professionKey: string
     professionText: string
     staffId: number
+    kinopoiskId?: number
 }

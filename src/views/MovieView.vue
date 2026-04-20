@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import MovieAbout from '@/components/MovieSections/MovieAbout.vue'
 import MovieActors from '@/components/MovieSections/MovieActors.vue'
+import MovieAwards from '@/components/MovieSections/MovieAwards.vue'
 import MovieFacts from '@/components/MovieSections/MovieFacts.vue'
 import MovieFrames from '@/components/MovieSections/MovieFrames.vue'
 import MoviePlatforms from '@/components/MovieSections/MoviePlatforms.vue'
@@ -48,6 +49,7 @@ onMounted(async () => {
                 <MoviePlatforms :movie="movie" />
                 <MovieActors :movie="movie" />
                 <MovieFacts :movie="movie" />
+                <MovieAwards :movie="movie" />
             </div>
         </div>
     </main>
