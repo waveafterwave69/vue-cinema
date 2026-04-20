@@ -12,13 +12,13 @@ const router = createRouter({
             component: HomeView,
         },
         {
-            path: '/movie/:id',
-            name: 'movie',
+            path: '/film/:id',
+            name: 'film',
             component: MovieView,
         },
         {
-            path: '/actor/:id',
-            name: 'actor',
+            path: '/name/:id',
+            name: 'name',
             component: ActorView,
         },
     ],

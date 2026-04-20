@@ -1,28 +1,27 @@
 <script setup lang="ts">
 import { moviesApi } from '@/services/movies'
+import type { MovieFullInfo } from '@/types/movies'
 import type { Platform } from '@/types/platfrom'
 import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+
+interface Props {
+    movie: MovieFullInfo
+}
+
+const props = defineProps<Props>()
 
 const platforms = ref<Platform[] | null>(null)
 const isLoading = ref(true)
 const error = ref<string | null>(null)
 
-const route = useRoute()
-
 onMounted(async () => {
-    const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id
-
-    if (!id) return
-
     try {
-        platforms.value = await moviesApi.getMovieOtherSource(id)
+        platforms.value = await moviesApi.getMovieOtherSource(props.movie.kinopoiskId)
     } catch (err) {
         error.value = 'Не удалось загрузить данные о фильме'
         console.error(err)
     } finally {
         isLoading.value = false
-        console.log(platforms.value)
     }
 })
 </script>

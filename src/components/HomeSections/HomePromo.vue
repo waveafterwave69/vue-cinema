@@ -41,7 +41,7 @@ onMounted(async () => {
 
         <div v-else-if="movie" class="promo">
             <div class="promo__left">
-                <RouterLink class="promo__img-wrapper" :to="`/movie/${movie.kinopoiskId}`">
+                <RouterLink class="promo__img-wrapper" :to="`/film/${movie.kinopoiskId}`">
                     <img :src="movie.posterUrl" alt="" class="promo__img" />
                     <span class="promo__badge" v-if="movie.year === new Date().getFullYear()"
                         >Новинка</span

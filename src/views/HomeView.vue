@@ -44,7 +44,7 @@ onMounted(fetchMovies)
             @loadMore="fetchMovies"
         >
             <SwiperSlide v-for="movie in bestFilms" :key="movie.kinopoiskId">
-                <RouterLink :to="`/movie/${movie.kinopoiskId}`" class="card">
+                <RouterLink :to="`/film/${movie.kinopoiskId}`" class="card">
                     <div class="movie__poster">
                         <img
                             :src="movie.posterUrl"

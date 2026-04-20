@@ -35,7 +35,6 @@ const fetchMovies = async () => {
         console.error('Ошибка загрузки фильмов:', err)
     } finally {
         isLoading.value = false
-        console.log(actors.value)
     }
 }
 
@@ -54,7 +53,7 @@ onMounted(fetchMovies)
                 @loadMore="fetchMovies"
             >
                 <SwiperSlide v-for="actor in actors" :key="actor.staffId">
-                    <RouterLink :to="`/actor/${actor.staffId}`">
+                    <RouterLink :to="`/name/${actor.staffId}`">
                         <div class="actor__poster">
                             <img
                                 :src="actor.posterUrl"
@@ -83,7 +82,6 @@ onMounted(fetchMovies)
     border-radius: 8px;
     display: block;
     object-fit: cover;
-    background-color: var(--color-bg2);
 }
 
 .actor__poster {
@@ -93,7 +91,6 @@ onMounted(fetchMovies)
     border-radius: 8px;
     display: block;
     object-fit: cover;
-    background-color: var(--color-bg2);
     display: flex;
     flex-direction: column;
     align-items: center;

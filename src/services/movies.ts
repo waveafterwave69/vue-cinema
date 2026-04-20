@@ -17,6 +17,11 @@ export const moviesApi = {
         return response.data
     },
 
+    async getMovieFacts(movieId: string) {
+        const response = await moviesBaseApi.get(`/${movieId}/facts`)
+        return response.data.items
+    },
+
     async getMovieBoxOffice(movieId: string) {
         const response = await moviesBaseApi.get(`/${movieId}/box_office`)
         return response.data
