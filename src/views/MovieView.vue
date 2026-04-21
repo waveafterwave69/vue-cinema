@@ -6,6 +6,8 @@ import MovieFacts from '@/components/MovieSections/MovieFacts.vue'
 import MovieFrames from '@/components/MovieSections/MovieFrames.vue'
 import MoviePlatforms from '@/components/MovieSections/MoviePlatforms.vue'
 import MoviePromo from '@/components/MovieSections/MoviePromo.vue'
+import MovieSame from '@/components/MovieSections/MovieSame.vue'
+import MovieSeqPreq from '@/components/MovieSections/MovieSeqPreq.vue'
 import { moviesApi } from '@/services/movies'
 import type { MovieFullInfo } from '@/types/movies'
 import { onMounted, ref } from 'vue'
@@ -33,7 +35,6 @@ onMounted(async () => {
         setTimeout(() => {
             showLater.value = false
         }, 500)
-        console.log(movie.value)
     }
 })
 </script>
@@ -50,6 +51,8 @@ onMounted(async () => {
                 <MovieActors :movie="movie" />
                 <MovieFacts :movie="movie" />
                 <MovieAwards :movie="movie" />
+                <MovieSame :movie="movie" />
+                <MovieSeqPreq :movie="movie" />
             </div>
         </div>
     </main>

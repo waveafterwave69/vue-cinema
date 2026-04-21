@@ -1,5 +1,5 @@
 import type { CollectionsType } from '@/types/movies'
-import { moviesBaseApi, moviesOldApi } from './baseApi'
+import { moviesBaseApi, moviesBaseApi_2_1, moviesOldApi } from './baseApi'
 
 export const moviesApi = {
     async getMoviesCategory(collectionType: CollectionsType, page: number) {
@@ -39,7 +39,7 @@ export const moviesApi = {
 
     async getMovieSimilars(movieId: string) {
         const response = await moviesBaseApi.get(`/${movieId}/similars`)
-        return response.data
+        return response.data.items
     },
 
     async getMovieRelations(movieId: string) {
@@ -58,7 +58,7 @@ export const moviesApi = {
     },
 
     async getMovieSequelsPrequels(movieId: string) {
-        const response = await moviesBaseApi.get(`/${movieId}/sequels_and_prequels`)
+        const response = await moviesBaseApi_2_1.get(`/${movieId}/sequels_and_prequels`)
         return response.data
     },
 

@@ -5,5 +5,5 @@ import HeaderComponent from './components/HeaderComponent.vue'
 
 <template>
     <HeaderComponent />
-    <RouterView />
+    <RouterView :key="$route.fullPath" />
 </template>
