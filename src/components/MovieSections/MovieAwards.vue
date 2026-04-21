@@ -2,6 +2,7 @@
 import { moviesApi } from '@/services/movies'
 import type { Awards } from '@/types/awards'
 import type { MovieFullInfo } from '@/types/movies'
+import ShowResetButtons from '@/UI/Buttons/ShowResetButtons.vue'
 import { onMounted, ref, computed } from 'vue'
 
 interface Props {
@@ -13,27 +14,28 @@ const awards = ref<Awards[]>([])
 const filterWinOnly = ref(false)
 
 const maxAwards = ref(4)
-const step = 4
+
+const isMaxAwards = computed(() => {
+    return maxAwards.value < awards.value.length
+})
+
+const handleShowAwards = () => {
+    if (isMaxAwards.value) {
+        maxAwards.value += 4
+    }
+}
+
+const handleResetAwards = () => {
+    maxAwards.value = 4
+}
 
 const filteredAwards = computed(() => {
     return filterWinOnly.value ? awards.value.filter((award) => award.win) : awards.value
 })
 
-const displayedAwards = computed(() => {
+const showdAwards = computed(() => {
     return filteredAwards.value.slice(0, maxAwards.value)
 })
-
-const hasMore = computed(() => {
-    return maxAwards.value < filteredAwards.value.length
-})
-
-const handleShowMore = () => {
-    maxAwards.value += step
-}
-
-const handleReset = () => {
-    maxAwards.value = step
-}
 
 onMounted(async () => {
     try {
@@ -53,7 +55,11 @@ onMounted(async () => {
                 <div class="awards__filter">
                     <span class="filter__label">Показать:</span>
                     <div class="select-wrapper">
-                        <select v-model="filterWinOnly" class="select-input" @change="handleReset">
+                        <select
+                            v-model="filterWinOnly"
+                            class="select-input"
+                            @change="handleResetAwards"
+                        >
                             <option :value="false">Все события</option>
                             <option :value="true">🏆 Только победы</option>
                         </select>
@@ -62,7 +68,7 @@ onMounted(async () => {
             </div>
 
             <div class="awards__grid">
-                <div v-for="(award, index) in displayedAwards" :key="index" class="award-card">
+                <div v-for="(award, index) in showdAwards" :key="index" class="award-card">
                     <div class="award-card__main">
                         <div class="award-card__image-box">
                             <img :src="award.imageUrl" :alt="award.name" class="award-icon" />
@@ -93,14 +99,12 @@ onMounted(async () => {
                 </div>
             </div>
 
-            <div class="awards__actions" v-if="filteredAwards.length > step">
-                <button v-if="hasMore" @click="handleShowMore" class="button-glass action-btn">
-                    Показать еще
-                </button>
-                <button v-else @click="handleReset" class="button-glass action-btn">
-                    Свернуть
-                </button>
-            </div>
+            <ShowResetButtons
+                @reset="handleResetAwards"
+                @show="handleShowAwards"
+                :isResetBlocked="maxAwards < 5"
+                :isShowBlocked="!isMaxAwards"
+            />
 
             <div v-if="filteredAwards.length === 0" class="empty-state">
                 Наград в этой категории не найдено

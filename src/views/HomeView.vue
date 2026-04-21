@@ -67,6 +67,10 @@ onMounted(fetchMovies)
 </template>
 
 <style scoped>
+.container {
+    margin-bottom: 50px;
+}
+
 .component__margin {
     margin-bottom: 50px;
 }

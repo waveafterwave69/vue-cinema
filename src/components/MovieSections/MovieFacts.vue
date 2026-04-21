@@ -2,6 +2,7 @@
 import { moviesApi } from '@/services/movies'
 import type { MovieFact } from '@/types/facts'
 import type { MovieFullInfo } from '@/types/movies'
+import ShowResetButtons from '@/UI/Buttons/ShowResetButtons.vue'
 import { onMounted, ref, computed } from 'vue'
 
 interface Props {
@@ -46,7 +47,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <section class="facts card">
+    <section class="facts card" v-if="facts.length > 0">
         <div class="container">
             <div class="facts__header">
                 <h2 class="facts__title">Факты о фильме</h2>
@@ -84,20 +85,12 @@ onMounted(async () => {
                 </div>
             </div>
 
-            <div class="button__row">
-                <button
-                    @click="handleResetFacts"
-                    :class="['button-glass', 'more-button', maxFacts < 9 && 'button-blocked']"
-                >
-                    Скрыть
-                </button>
-                <button
-                    @click="handleShowFacts"
-                    :class="['button-glass', 'more-button', !isMaxFacts && 'button-blocked']"
-                >
-                    Больше
-                </button>
-            </div>
+            <ShowResetButtons
+                @reset="handleResetFacts"
+                @show="handleShowFacts"
+                :isResetBlocked="maxFacts === 3"
+                :isShowBlocked="!isMaxFacts"
+            />
 
             <div v-if="filteredFacts.length === 0" class="facts__empty">
                 Интересных фактов пока не добавлено
@@ -207,7 +200,7 @@ onMounted(async () => {
     bottom: 0;
     right: 0;
     background: #e74c3c;
-    color: white;
+    color: var(--color-main);
     font-size: 10px;
     font-weight: 900;
     padding: 4px 12px;
@@ -232,19 +225,6 @@ onMounted(async () => {
     padding: 100px 0;
     opacity: 0.4;
     font-size: 18px;
-}
-
-.button__row {
-    margin-top: 25px;
-    display: flex;
-    align-items: center;
-    column-gap: 20px;
-    justify-content: center;
-}
-
-.button-blocked {
-    cursor: not-allowed;
-    opacity: 0.4;
 }
 
 @media (max-width: 1024px) {
@@ -278,11 +258,6 @@ onMounted(async () => {
 
     .fact-card__text {
         font-size: 16px;
-    }
-
-    .button__row {
-        margin-top: 20px;
-        column-gap: 15px;
     }
 }
 
@@ -325,11 +300,6 @@ onMounted(async () => {
     .fact-card__icon {
         font-size: 18px;
     }
-
-    .button__row {
-        margin-top: 20px;
-        column-gap: 15px;
-    }
 }
 
 @media (max-width: 425px) {
@@ -352,10 +322,6 @@ onMounted(async () => {
 
     .fact-card {
         padding: 13px;
-    }
-
-    .button__row {
-        column-gap: 10px;
     }
 }
 </style>

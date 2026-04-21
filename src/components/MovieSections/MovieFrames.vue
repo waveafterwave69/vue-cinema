@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { useGetMovieFrames } from '@/composables/useGetMovieFrames'
 import type { MovieFullInfo } from '@/types/movies'
+import ShowResetButtons from '@/UI/Buttons/ShowResetButtons.vue'
 
 interface Props {
     movie: MovieFullInfo
@@ -62,20 +63,12 @@ const closeImage = () => {
                 </li>
             </ul>
 
-            <div class="button__row">
-                <button
-                    @click="handleResetFrames"
-                    :class="['button-glass', 'more-button', maxFrames < 9 && 'button-blocked']"
-                >
-                    Скрыть
-                </button>
-                <button
-                    @click="handleShowFrames"
-                    :class="['button-glass', 'more-button', !isMaxFrames && 'button-blocked']"
-                >
-                    Больше
-                </button>
-            </div>
+            <ShowResetButtons
+                @reset="handleResetFrames"
+                @show="handleShowFrames"
+                :isResetBlocked="maxFrames < 9"
+                :isShowBlocked="!isMaxFrames"
+            />
         </div>
 
         <Transition name="fade">
@@ -154,14 +147,6 @@ const closeImage = () => {
     opacity: 0;
 }
 
-.button__row {
-    margin-top: 25px;
-    display: flex;
-    align-items: center;
-    column-gap: 20px;
-    justify-content: center;
-}
-
 .button-blocked {
     cursor: not-allowed;
     opacity: 0.4;
@@ -207,11 +192,6 @@ const closeImage = () => {
 
     .frames__list {
         grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    }
-
-    .button__row {
-        margin-top: 25px;
-        column-gap: 10px;
     }
 }
 </style>
