@@ -42,7 +42,7 @@ onMounted(fetchMovies)
 </script>
 
 <template>
-    <section class="same" v-if="movies.length > 0">
+    <section class="movies" v-if="movies.length > 0">
         <div class="container">
             <SwiperComponent v-if="movies.length" swiperTitle="Другие части фильма">
                 <SwiperSlide v-for="movie in movies" :key="movie.filmId">
@@ -63,7 +63,7 @@ onMounted(fetchMovies)
 </template>
 
 <style scoped>
-.same {
+.movies {
     margin-top: 50px;
 }
 
@@ -116,6 +116,10 @@ onMounted(fetchMovies)
 }
 
 @media (max-width: 768px) {
+    .movies {
+        margin-top: 30px;
+    }
+
     .component__margin {
         margin-bottom: 40px;
     }

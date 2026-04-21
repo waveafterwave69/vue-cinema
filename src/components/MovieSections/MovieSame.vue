@@ -129,6 +129,10 @@ onMounted(fetchMovies)
 }
 
 @media (max-width: 768px) {
+    .same {
+        margin-top: 50px;
+    }
+
     .component__margin {
         margin-bottom: 40px;
     }
