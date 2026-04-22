@@ -131,8 +131,8 @@ onMounted(async () => {
 
 .select-input {
     appearance: none;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(10px);
     padding: 10px 40px 10px 20px;
     border-radius: 12px;

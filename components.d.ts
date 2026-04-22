@@ -21,6 +21,7 @@ declare module 'vue' {
     MoviePlatforms: typeof import('./src/components/MovieSections/MoviePlatforms.vue')['default']
     MoviePlayer: typeof import('./src/components/Movie/MoviePlayer.vue')['default']
     MoviePromo: typeof import('./src/components/MovieSections/MoviePromo.vue')['default']
+    MovieReviews: typeof import('./src/components/MovieSections/MovieReviews.vue')['default']
     MovieRewards: typeof import('./src/components/MovieSections/MovieRewards.vue')['default']
     MovieSame: typeof import('./src/components/MovieSections/MovieSame.vue')['default']
     MovieSeqPreq: typeof import('./src/components/MovieSections/MovieSeqPreq.vue')['default']

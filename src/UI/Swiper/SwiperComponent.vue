@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Swiper } from 'swiper/vue'
 import { Autoplay } from 'swiper/modules'
+import { computed } from 'vue' // Импортируем computed
 import 'swiper/css'
 
 interface Props {
@@ -8,35 +9,33 @@ interface Props {
     slidesPerView?: number
     slidesPerViewMedium?: number
     slidesPerViewSmall?: number
-    autoplayDeelay?: number
+    autoplayDelay?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
     slidesPerView: 6,
     slidesPerViewMedium: 4,
     slidesPerViewSmall: 3,
-    autoplayDeelay: 3000,
+    autoplayDelay: 3000,
 })
 
-const emit = defineEmits<{
-    (e: 'loadMore'): void
-}>()
-
+const emit = defineEmits<{ (e: 'loadMore'): void }>()
 const modules = [Autoplay]
 
+const autoplayConfig = computed(() => {
+    if (props.autoplayDelay === 0) return false
+
+    return {
+        delay: props.autoplayDelay,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+    }
+})
+
 const swiperBreakpoints = {
-    320: {
-        slidesPerView: props.slidesPerViewSmall,
-        spaceBetween: 10,
-    },
-    768: {
-        slidesPerView: props.slidesPerViewMedium,
-        spaceBetween: 15,
-    },
-    1200: {
-        slidesPerView: props.slidesPerView,
-        spaceBetween: 20,
-    },
+    320: { slidesPerView: props.slidesPerViewSmall, spaceBetween: 10 },
+    768: { slidesPerView: props.slidesPerViewMedium, spaceBetween: 15 },
+    1200: { slidesPerView: props.slidesPerView, spaceBetween: 20 },
 }
 
 const onReachEnd = () => {
@@ -50,11 +49,7 @@ const onReachEnd = () => {
         <swiper
             :breakpoints="swiperBreakpoints"
             :modules="modules"
-            :autoplay="{
-                delay: props.autoplayDeelay,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-            }"
+            :autoplay="autoplayConfig"
             @reachEnd="onReachEnd"
         >
             <slot />

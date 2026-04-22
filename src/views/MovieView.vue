@@ -6,6 +6,7 @@ import MovieFacts from '@/components/MovieSections/MovieFacts.vue'
 import MovieFrames from '@/components/MovieSections/MovieFrames.vue'
 import MoviePlatforms from '@/components/MovieSections/MoviePlatforms.vue'
 import MoviePromo from '@/components/MovieSections/MoviePromo.vue'
+import MovieReviews from '@/components/MovieSections/MovieReviews.vue'
 import MovieSame from '@/components/MovieSections/MovieSame.vue'
 import MovieSeqPreq from '@/components/MovieSections/MovieSeqPreq.vue'
 import { moviesApi } from '@/services/movies'
@@ -53,6 +54,7 @@ onMounted(async () => {
                 <MovieAwards :movie="movie" />
                 <MovieSame :movie="movie" />
                 <MovieSeqPreq :movie="movie" />
+                <MovieReviews :movie="movie" />
             </div>
         </div>
     </main>

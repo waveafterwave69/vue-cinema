@@ -49,7 +49,7 @@ export const moviesApi = {
 
     async getMovieReviews(movieId: string) {
         const response = await moviesBaseApi.get(`/${movieId}/reviews`)
-        return response.data
+        return response.data.items
     },
 
     async getMovieOtherSource(movieId: string) {
