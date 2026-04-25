@@ -5,6 +5,8 @@ import { ref } from 'vue'
 
 const currentTheme = ref<CollectionsType>('POPULAR_SERIES')
 
+const searchValue = ref<string>('')
+
 const changeTheme = (newTheme: CollectionsType) => {
     console.log(newTheme)
     currentTheme.value = newTheme
@@ -13,7 +15,11 @@ const changeTheme = (newTheme: CollectionsType) => {
 
 <template>
     <div class="container">
-        <SearchPromo :currentTheme="currentTheme" @changeTheme="changeTheme" />
+        <SearchPromo
+            v-model:searchValue="searchValue"
+            :currentTheme="currentTheme"
+            @change-theme="changeTheme"
+        />
     </div>
 </template>
 

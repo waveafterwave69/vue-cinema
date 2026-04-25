@@ -7,10 +7,16 @@ import { SwiperSlide } from 'swiper/vue'
 
 interface Props {
     currentTheme: CollectionsType
+    searchValue: string
 }
 
 defineProps<Props>()
-const emit = defineEmits(['change-theme'])
+const emit = defineEmits(['change-theme', 'update:searchValue'])
+
+const onInput = (e: Event) => {
+    const target = e.target as HTMLInputElement
+    emit('update:searchValue', target.value)
+}
 </script>
 
 <template>
@@ -26,7 +32,9 @@ const emit = defineEmits(['change-theme'])
                 <div class="search-bar">
                     <input
                         type="text"
-                        placeholder="Найти фильм, сериал..."
+                        :value="searchValue"
+                        @input="onInput"
+                        placeholder="Поиск фильма..."
                         class="search-bar__input"
                     />
                     <button class="search-bar__btn">

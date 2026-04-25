@@ -72,7 +72,7 @@ onMounted(fetchMovies)
                         </div>
 
                         <div class="review__body">
-                            <p class="review__text">{{ review.description }}</p>
+                            <p class="review__text" v-html="review.description"></p>
                         </div>
                     </div>
                 </SwiperSlide>
