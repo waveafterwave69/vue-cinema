@@ -30,5 +30,6 @@ declare module 'vue' {
     PromoComponent: typeof import('./src/components/Promo/PromoComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchPromo: typeof import('./src/components/SearchSections/SearchPromo.vue')['default']
   }
 }
