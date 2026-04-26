@@ -22,15 +22,23 @@ const isMenuOpen = ref(false)
                 </button>
                 <nav class="header__nav">
                     <ul class="nav__list">
-                        <li><RouterLink to="/movies" class="list__item">Фильмы</RouterLink></li>
-                        <li><RouterLink to="/news" class="list__item">Новости</RouterLink></li>
+                        <li>
+                            <RouterLink to="/search" active-class="is-active" class="list__item"
+                                >Фильмы</RouterLink
+                            >
+                        </li>
+                        <li>
+                            <RouterLink to="/news" active-class="is-active" class="list__item"
+                                >Новости</RouterLink
+                            >
+                        </li>
                     </ul>
                 </nav>
             </div>
             <ul class="header__buttons">
                 <li>
                     <button>
-                        <RouterLink to="/movies" class="button__item button-search">
+                        <RouterLink to="/search" class="button__item button-search">
                             <img src="../img/search.svg" class="button__img" alt="" />
                         </RouterLink>
                     </button>
@@ -141,6 +149,10 @@ button:hover {
 
 .button__img {
     width: 28px;
+}
+
+.is-active {
+    border-bottom: 1px solid var(--color-main);
 }
 
 @media (max-width: 1024px) {

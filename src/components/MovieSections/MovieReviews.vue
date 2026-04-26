@@ -7,6 +7,7 @@ import { SwiperSlide } from 'swiper/vue'
 import { onMounted, ref } from 'vue'
 import iconLike from '@/img/like.png'
 import iconDislike from '@/img/dislike.png'
+import { formatDate } from '@/utils/formatters'
 
 interface Props {
     movie: MovieFullInfo
@@ -40,15 +41,6 @@ const fetchMovies = async () => {
 }
 
 onMounted(fetchMovies)
-const formatDate = (dateString: string) => {
-    if (!dateString) return ''
-    const date = new Date(dateString)
-    return date.toLocaleDateString('ru-RU', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-    })
-}
 </script>
 
 <template>
@@ -80,7 +72,7 @@ const formatDate = (dateString: string) => {
                         </div>
 
                         <div class="review__body">
-                            <p class="review__text">{{ review.description }}</p>
+                            <p class="review__text" v-html="review.description"></p>
                         </div>
                     </div>
                 </SwiperSlide>

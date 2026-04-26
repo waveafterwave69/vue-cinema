@@ -66,4 +66,11 @@ export const moviesApi = {
         const response = await moviesOldApi.get(`/staff?filmId=${movieId}`)
         return response.data
     },
+
+    async getMovieSearchValue(searchValue: string, page: number) {
+        const response = await moviesBaseApi_2_1.get(
+            `search-by-keyword?keyword=${searchValue}&page=${page}`,
+        )
+        return response.data
+    },
 }

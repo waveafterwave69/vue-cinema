@@ -18,6 +18,7 @@ declare module 'vue' {
     MovieAwards: typeof import('./src/components/MovieSections/MovieAwards.vue')['default']
     MovieFacts: typeof import('./src/components/MovieSections/MovieFacts.vue')['default']
     MovieFrames: typeof import('./src/components/MovieSections/MovieFrames.vue')['default']
+    MovieItem: typeof import('./src/components/MovieItem.vue')['default']
     MoviePlatforms: typeof import('./src/components/MovieSections/MoviePlatforms.vue')['default']
     MoviePlayer: typeof import('./src/components/Movie/MoviePlayer.vue')['default']
     MoviePromo: typeof import('./src/components/MovieSections/MoviePromo.vue')['default']
@@ -30,5 +31,7 @@ declare module 'vue' {
     PromoComponent: typeof import('./src/components/Promo/PromoComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchMovies: typeof import('./src/components/SearchSections/SearchMovies.vue')['default']
+    SearchPromo: typeof import('./src/components/SearchSections/SearchPromo.vue')['default']
   }
 }

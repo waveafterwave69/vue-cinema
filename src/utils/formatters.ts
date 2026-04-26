@@ -9,3 +9,17 @@ export const formatTimeToHoursAndMinutes = (time: number) => {
 
     return `${hours} ч. ${minutes} мин.`
 }
+
+export const firstLetterUpCase = (text: string) => {
+    return text[0]?.toUpperCase() + text.slice(1)
+}
+
+export const formatDate = (dateString: string) => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    return date.toLocaleDateString('ru-RU', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    })
+}
