@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import SearchMovies from '@/components/SearchSections/SearchMovies.vue'
 import SearchPromo from '@/components/SearchSections/SearchPromo.vue'
 import type { CollectionsType } from '@/types/movies'
 import { ref } from 'vue'
 
-const currentTheme = ref<CollectionsType>('POPULAR_SERIES')
+const currentTheme = ref<CollectionsType>('TOP_POPULAR_ALL')
 
 const searchValue = ref<string>('')
 
@@ -20,6 +21,7 @@ const changeTheme = (newTheme: CollectionsType) => {
             :currentTheme="currentTheme"
             @change-theme="changeTheme"
         />
+        <SearchMovies :searchValue="searchValue" :currentTheme="currentTheme" />
     </div>
 </template>
 

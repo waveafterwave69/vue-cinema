@@ -11,11 +11,19 @@ interface Props {
 }
 
 defineProps<Props>()
-const emit = defineEmits(['change-theme', 'update:searchValue'])
+
+const emit = defineEmits<{
+    (e: 'change-theme', theme: CollectionsType): void
+    (e: 'update:searchValue', value: string): void
+}>()
 
 const onInput = (e: Event) => {
     const target = e.target as HTMLInputElement
     emit('update:searchValue', target.value)
+}
+
+const handleThemeChange = (theme: CollectionsType) => {
+    emit('change-theme', theme)
 }
 </script>
 
@@ -47,7 +55,7 @@ const onInput = (e: Event) => {
                         <button
                             class="category-btn"
                             :class="{ 'category-btn--active': item.type === currentTheme }"
-                            @click="emit('change-theme', item.type)"
+                            @click="handleThemeChange(item.type)"
                         >
                             {{ firstLetterUpCase(item.name) }}
                         </button>
@@ -70,7 +78,6 @@ const onInput = (e: Event) => {
 .promo__card {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, var(--color-bg2) 0%, var(--color-bg-alt) 100%);
     border: 1px solid var(--color-secondary);
     border-radius: 24px;
     padding: 50px 40px;
