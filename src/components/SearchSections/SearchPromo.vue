@@ -197,7 +197,7 @@ const handleThemeChange = (theme: CollectionsType) => {
         margin-top: 10px;
         padding: 10px 18px;
         font-size: 16px;
-        margin-bottom: 25px;
+        margin-bottom: 15px;
     }
 
     .category-btn {

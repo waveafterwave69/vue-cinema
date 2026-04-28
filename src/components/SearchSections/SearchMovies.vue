@@ -27,7 +27,7 @@ const { movies, isLoading } = useMoviesSearch(
                 :to="`/film/${movie.filmId || movie.kinopoiskId}`"
                 class="movie-card"
             >
-                <div class="movie-card__poster">
+                <div class="movie-card__poster" v-if="movie.filmId || movie.kinopoiskId">
                     <img
                         :src="movie.posterUrl"
                         :alt="movie.nameRu"
@@ -57,6 +57,7 @@ const { movies, isLoading } = useMoviesSearch(
 .movies {
     margin-top: 30px;
     min-height: 400px;
+    margin-bottom: 50px;
 }
 
 .movies__grid {
@@ -71,7 +72,7 @@ const { movies, isLoading } = useMoviesSearch(
 }
 
 .movie-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-7px);
 }
 
 .movie-card__poster {
@@ -79,8 +80,6 @@ const { movies, isLoading } = useMoviesSearch(
     aspect-ratio: 2/3;
     border-radius: 16px;
     overflow: hidden;
-    background: var(--color-bg-alt);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .movie-card__img {
@@ -96,9 +95,9 @@ const { movies, isLoading } = useMoviesSearch(
 
 .movie-card__rating {
     position: absolute;
-    top: 12px;
-    left: 12px;
-    background: var(--color-gold, #f5c518);
+    top: 10px;
+    left: 10px;
+    background: var(--color-gold);
     color: var(--color-bg2);
     padding: 4px 10px;
     border-radius: 8px;
@@ -135,13 +134,24 @@ const { movies, isLoading } = useMoviesSearch(
 }
 
 .spinner {
-    width: 60px;
+    width: 120px;
 }
 
 .movies__empty {
     text-align: center;
     color: var(--color-secondary);
     margin-top: 50px;
+}
+
+@media (max-width: 1024px) {
+    .movies {
+        margin-top: 20px;
+    }
+
+    .movies__grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+    }
 }
 
 @media (max-width: 768px) {
