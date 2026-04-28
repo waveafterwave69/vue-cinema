@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { inject, onMounted, ref, type Ref } from 'vue'
 import { SwiperSlide } from 'swiper/vue'
 import SwiperComponent from '@/UI/Swiper/SwiperComponent.vue'
 import HomePromo from '@/components/HomeSections/HomePromo.vue'
 import { moviesApi } from '@/services/movies'
-import type { Movie } from '@/types/movies'
+import type { CollectionsType, Movie } from '@/types/movies'
+import CategoriesComponent from '@/components/CategoriesComponent.vue'
+import { useScrollTop } from '@/composables/useScrollTop'
+import { useMoviesSearch } from '@/composables/useMovieSearch'
 
 const bestFilms = ref<Movie[]>([])
 const currentPage = ref(1)
@@ -31,34 +34,67 @@ const fetchMovies = async () => {
     }
 }
 
+const searchValue = inject<Ref<string>>('search-value')
+const currentTheme = inject<Ref<CollectionsType>>('current-theme')
+
+const { movies } = useMoviesSearch(
+    () => searchValue?.value ?? '',
+    () => currentTheme?.value ?? 'TOP_POPULAR_ALL',
+)
+
 onMounted(fetchMovies)
+
+useScrollTop()
 </script>
 
 <template>
     <main class="container">
         <HomePromo class="section-margin" />
 
-        <SwiperComponent
-            v-if="bestFilms.length"
-            swiperTitle="Лучшие фильмы"
-            @loadMore="fetchMovies"
-        >
-            <SwiperSlide v-for="movie in bestFilms" :key="movie.kinopoiskId">
-                <RouterLink :to="`/film/${movie.kinopoiskId}`" class="card">
-                    <div class="movie__poster">
-                        <img
-                            :src="movie.posterUrl"
-                            :alt="movie.nameRu"
-                            class="card__img"
-                            loading="lazy"
-                        />
-                        <div v-if="movie.ratingKinopoisk" class="movie__rating">
-                            {{ movie.ratingKinopoisk }}
+        <div class="best">
+            <SwiperComponent
+                v-if="bestFilms.length"
+                swiperTitle="Лучшие фильмы"
+                @loadMore="fetchMovies"
+            >
+                <SwiperSlide v-for="movie in bestFilms" :key="movie.kinopoiskId">
+                    <RouterLink :to="`/film/${movie.kinopoiskId}`" class="card">
+                        <div class="movie__poster">
+                            <img
+                                :src="movie.posterUrl"
+                                :alt="movie.nameRu"
+                                class="card__img"
+                                loading="lazy"
+                            />
+                            <div v-if="movie.ratingKinopoisk" class="movie__rating">
+                                {{ movie.ratingKinopoisk }}
+                            </div>
                         </div>
-                    </div>
-                </RouterLink>
-            </SwiperSlide>
-        </SwiperComponent>
+                    </RouterLink>
+                </SwiperSlide>
+            </SwiperComponent>
+        </div>
+
+        <div class="categories">
+            <CategoriesComponent />
+            <SwiperComponent v-if="bestFilms.length" swiperTitle="" @loadMore="fetchMovies">
+                <SwiperSlide v-for="movie in movies" :key="movie.kinopoiskId">
+                    <RouterLink :to="`/film/${movie.kinopoiskId}`" class="card">
+                        <div class="movie__poster">
+                            <img
+                                :src="movie.posterUrl"
+                                :alt="movie.nameRu"
+                                class="card__img"
+                                loading="lazy"
+                            />
+                            <div v-if="movie.ratingKinopoisk" class="movie__rating">
+                                {{ movie.ratingKinopoisk }}
+                            </div>
+                        </div>
+                    </RouterLink>
+                </SwiperSlide>
+            </SwiperComponent>
+        </div>
 
         <div v-if="isLoading" class="loader-wrapper">
             <div class="spinner"></div>
@@ -110,6 +146,10 @@ onMounted(fetchMovies)
     margin-top: -50px;
 }
 
+.categories {
+    margin-top: 50px;
+}
+
 @media (max-width: 768px) {
     .component__margin {
         margin-bottom: 40px;
@@ -118,6 +158,10 @@ onMounted(fetchMovies)
     .loader {
         width: 100px;
         margin-top: 0px;
+    }
+
+    .categories {
+        margin-top: 20px;
     }
 }
 </style>

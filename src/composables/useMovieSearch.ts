@@ -3,10 +3,10 @@ import { moviesApi } from '@/services/movies'
 import type { Movie, CollectionsType } from '@/types/movies'
 import axios from 'axios'
 
-export function useMoviesSearch(
+export const useMoviesSearch = (
     getSearchValue: () => string,
     getCurrentTheme: () => CollectionsType,
-) {
+) => {
     const movies = ref<Movie[]>([])
     const isLoading = ref(false)
 

@@ -1,19 +1,17 @@
 <script setup lang="ts">
-import type { CollectionsType } from '@/types/movies'
+import { inject, type Ref } from 'vue'
 import { useMoviesSearch } from '@/composables/useMovieSearch'
+import type { CollectionsType } from '@/types/movies'
 
-interface Props {
-    searchValue: string
-    currentTheme: CollectionsType
-}
-
-const props = defineProps<Props>()
+const searchValue = inject<Ref<string>>('search-value')
+const currentTheme = inject<Ref<CollectionsType>>('current-theme')
 
 const { movies, isLoading } = useMoviesSearch(
-    () => props.searchValue,
-    () => props.currentTheme,
+    () => searchValue?.value ?? '',
+    () => currentTheme?.value ?? 'TOP_POPULAR_ALL',
 )
 </script>
+
 <template>
     <section class="movies">
         <div v-if="isLoading" class="movies__status">
@@ -165,6 +163,10 @@ const { movies, isLoading } = useMoviesSearch(
         left: 5px;
         padding: 2px 8px;
         font-size: 12px;
+    }
+
+    .spinner {
+        width: 70px;
     }
 }
 </style>

@@ -9,6 +9,7 @@ import MoviePromo from '@/components/MovieSections/MoviePromo.vue'
 import MovieReviews from '@/components/MovieSections/MovieReviews.vue'
 import MovieSame from '@/components/MovieSections/MovieSame.vue'
 import MovieSeqPreq from '@/components/MovieSections/MovieSeqPreq.vue'
+import { useScrollTop } from '@/composables/useScrollTop'
 import { moviesApi } from '@/services/movies'
 import type { MovieFullInfo } from '@/types/movies'
 import { onMounted, ref } from 'vue'
@@ -38,6 +39,8 @@ onMounted(async () => {
         }, 500)
     }
 })
+
+useScrollTop()
 </script>
 
 <template>

@@ -1,29 +1,14 @@
 <script setup lang="ts">
-import { searchCollection } from '@/static/static'
-import type { CollectionsType } from '@/types/movies'
-import SwiperComponent from '@/UI/Swiper/SwiperComponent.vue'
-import { firstLetterUpCase } from '@/utils/formatters'
-import { SwiperSlide } from 'swiper/vue'
+import { inject, type Ref } from 'vue'
+import CategoriesComponent from '../CategoriesComponent.vue'
 
-interface Props {
-    currentTheme: CollectionsType
-    searchValue: string
-}
-
-defineProps<Props>()
-
-const emit = defineEmits<{
-    (e: 'change-theme', theme: CollectionsType): void
-    (e: 'update:searchValue', value: string): void
-}>()
+const searchValue = inject<Ref<string>>('search-value')
 
 const onInput = (e: Event) => {
     const target = e.target as HTMLInputElement
-    emit('update:searchValue', target.value)
-}
-
-const handleThemeChange = (theme: CollectionsType) => {
-    emit('change-theme', theme)
+    if (searchValue) {
+        searchValue.value = target.value
+    }
 }
 </script>
 
@@ -50,17 +35,7 @@ const handleThemeChange = (theme: CollectionsType) => {
                     </button>
                 </div>
 
-                <SwiperComponent :slidesPerView="5" :autoplayDelay="0" swiperTitle="Категории">
-                    <SwiperSlide v-for="item in searchCollection" :key="item.id">
-                        <button
-                            class="category-btn"
-                            :class="{ 'category-btn--active': item.type === currentTheme }"
-                            @click="handleThemeChange(item.type)"
-                        >
-                            {{ firstLetterUpCase(item.name) }}
-                        </button>
-                    </SwiperSlide>
-                </SwiperComponent>
+                <CategoriesComponent />
             </div>
         </div>
     </section>
@@ -129,23 +104,6 @@ const handleThemeChange = (theme: CollectionsType) => {
     transform: scale(1.05);
 }
 
-.category-btn {
-    width: 100%;
-    padding: 12px 20px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
-    font-weight: 500;
-}
-
-.category-btn:hover {
-    background: var(--color-bg2);
-}
-
-.category-btn--active {
-    background: var(--color-bg2);
-}
-
 @media (max-width: 1024px) {
     .promo {
         margin-top: 25px;
@@ -176,12 +134,6 @@ const handleThemeChange = (theme: CollectionsType) => {
         padding: 0px;
         display: flex;
     }
-
-    .category-btn {
-        width: 100%;
-        padding: 10px 15px;
-        font-size: 14px;
-    }
 }
 
 @media (max-width: 768px) {
@@ -198,12 +150,6 @@ const handleThemeChange = (theme: CollectionsType) => {
         padding: 10px 18px;
         font-size: 16px;
         margin-bottom: 15px;
-    }
-
-    .category-btn {
-        width: 100%;
-        padding: 10px 5px;
-        font-size: 14px;
     }
 }
 </style>
