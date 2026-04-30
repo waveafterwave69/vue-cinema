@@ -10,6 +10,7 @@ interface Prize {
 interface Props {
     prizes: Prize[]
     buttonText: string
+    whellText: string
 }
 
 const props = defineProps<Props>()
@@ -107,6 +108,7 @@ watch(isOpen, (newValue) => {
                                     :style="{
                                         transform: `rotate(${sector.imgRotation}deg)`,
                                         transformOrigin: '100px 100px',
+                                        opacity: '0.9',
                                     }"
                                 />
                             </pattern>
@@ -138,6 +140,7 @@ watch(isOpen, (newValue) => {
                                 }}</RouterLink>
                             </h2>
                         </div>
+                        <p v-else class="hint__text">{{ whellText }}</p>
                     </Transition>
                 </div>
             </div>
@@ -279,9 +282,10 @@ watch(isOpen, (newValue) => {
 
 .winner__name {
     color: var(--color-main);
-    font-size: 2rem;
+    font-size: 32px;
     margin-top: 8px;
     font-weight: 800;
+    text-decoration: underline;
 }
 
 .hint__text {
@@ -314,5 +318,133 @@ watch(isOpen, (newValue) => {
 .slide-up-enter-from {
     opacity: 0;
     transform: translateY(20px);
+}
+
+@media (max-width: 1024px) {
+    .wheel__trigger {
+        bottom: 15px;
+        right: 15px;
+        padding: 12px 24px;
+        border-radius: 50px;
+        gap: 8px;
+    }
+
+    .wheel__modal {
+        width: 90%;
+    }
+
+    .close__btn {
+        top: -50px;
+        right: 0;
+        width: 40px;
+        height: 40px;
+    }
+
+    .wheel__container {
+        width: min(80vw, 450px);
+        height: min(80vw, 450px);
+    }
+
+    .wheel-outer-decoration {
+        inset: -6px;
+    }
+
+    .spin__button {
+        width: 55px;
+        height: 55px;
+    }
+
+    .winner__box {
+        margin-top: 30px;
+        height: 100px;
+    }
+
+    .winner__label {
+        font-size: 12px;
+    }
+
+    .winner__name {
+        color: var(--color-main);
+        font-size: 32px;
+        margin-top: 8px;
+        font-weight: 800;
+        text-decoration: underline;
+    }
+}
+
+@media (max-width: 768px) {
+    .wheel__trigger {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 22px;
+        gap: 5px;
+        font-size: 16px;
+    }
+
+    .close__btn {
+        top: -130px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .wheel__container {
+        width: min(80vw, 430px);
+        height: min(80vw, 430px);
+    }
+
+    .wheel-outer-decoration {
+        inset: -5px;
+    }
+
+    .spin__button {
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+    }
+
+    .winner__box {
+        margin-top: 20px;
+        height: 100px;
+        margin-bottom: 20px;
+    }
+
+    .winner__label {
+        font-size: 12px;
+    }
+
+    .winner__name {
+        color: var(--color-main);
+        font-size: 26px;
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 425px) {
+    .close__btn {
+        top: -150px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .wheel__container {
+        width: min(80vw, 420px);
+        height: min(80vw, 420px);
+    }
+
+    .spin__button {
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+    }
+
+    .winner__label {
+        font-size: 11px;
+    }
+
+    .winner__name {
+        color: var(--color-main);
+        font-size: 24px;
+        margin-top: 8px;
+    }
 }
 </style>

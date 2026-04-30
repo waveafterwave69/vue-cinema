@@ -54,13 +54,14 @@ useScrollTop()
         <WheelOfFortune
             v-if="bestFilms.length"
             :prizes="
-                bestFilms.slice(0, 10).map((m) => ({
+                bestFilms.slice(0, 14).map((m) => ({
                     text: m.nameRu || m.nameEn,
                     id: m.kinopoiskId,
                     img: m.posterUrl,
                 }))
             "
             buttonText="🎡 Рандомайзер"
+            whellText="Крути колесо, чтобы выбрать фильм!"
         />
         <div class="best">
             <SwiperComponent
