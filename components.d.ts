@@ -35,5 +35,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SearchMovies: typeof import('./src/components/SearchSections/SearchMovies.vue')['default']
     SearchPromo: typeof import('./src/components/SearchSections/SearchPromo.vue')['default']
+    WheelOfFortuna: typeof import('./src/components/WheelOfFortuna.vue')['default']
+    WheelOfFortune: typeof import('./src/components/WheelOfFortune.vue')['default']
   }
 }

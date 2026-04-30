@@ -8,6 +8,7 @@ import type { CollectionsType, Movie } from '@/types/movies'
 import CategoriesComponent from '@/components/CategoriesComponent.vue'
 import { useScrollTop } from '@/composables/useScrollTop'
 import { useMoviesSearch } from '@/composables/useMovieSearch'
+import WheelOfFortune from '@/UI/WheelOfFortune/WheelOfFortune.vue'
 
 const bestFilms = ref<Movie[]>([])
 const currentPage = ref(1)
@@ -50,7 +51,17 @@ useScrollTop()
 <template>
     <main class="container">
         <HomePromo class="section-margin" />
-
+        <WheelOfFortune
+            v-if="bestFilms.length"
+            :prizes="
+                bestFilms.slice(0, 10).map((m) => ({
+                    text: m.nameRu || m.nameEn,
+                    id: m.kinopoiskId,
+                    img: m.posterUrl,
+                }))
+            "
+            buttonText="🎡 Рандомайзер"
+        />
         <div class="best">
             <SwiperComponent
                 v-if="bestFilms.length"
