@@ -107,10 +107,6 @@ useScrollTop()
                 </SwiperSlide>
             </SwiperComponent>
         </div>
-
-        <div v-if="isLoading" class="loader-wrapper">
-            <div class="spinner"></div>
-        </div>
     </main>
 </template>
 

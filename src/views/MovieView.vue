@@ -78,4 +78,10 @@ useScrollTop()
     justify-content: center;
     align-items: center;
 }
+
+@media (max-width: 768px) {
+    .loading {
+        width: 100px;
+    }
+}
 </style>
