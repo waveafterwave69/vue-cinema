@@ -11,9 +11,12 @@ interface Props {
     prizes: Prize[]
     buttonText: string
     whellText: string
+    audio: string
 }
 
 const props = defineProps<Props>()
+const audioEffect = new Audio(props.audio)
+audioEffect.volume = 0.3
 const isOpen = ref(false)
 const rotation = ref(0)
 const isSpinning = ref(false)
@@ -40,6 +43,7 @@ const sectors = computed(() => {
 
 const spin = () => {
     if (isSpinning.value || !props.prizes.length) return
+    audioEffect.play()
     winner.value = null
     isSpinning.value = true
     rotation.value += 2880 + Math.floor(Math.random() * 360)
@@ -49,7 +53,7 @@ const spin = () => {
         const index =
             Math.floor((360 - actualDeg) / (360 / props.prizes.length)) % props.prizes.length
         winner.value = props.prizes[index] || null
-    }, 5000)
+    }, 4500)
 }
 
 const toggleWheel = () => {

@@ -6,6 +6,7 @@ import { type CollectionsType, type Movie } from '@/types/movies'
 import { searchCollection } from '@/static/static'
 import { firstLetterUpCase } from '@/utils/formatters'
 import { useRandomNumber } from 'wave-hooks'
+import wheelAudio from '../sounds/wheel-of-fortune.mp3'
 
 const movies = ref<Movie[]>([])
 const category = ref<CollectionsType>('TOP_250_MOVIES')
@@ -47,6 +48,7 @@ watch(category, () => {
             "
             buttonText="🎡 Рандомайзер"
             whellText="Крути колесо, чтобы выбрать фильм!"
+            :audio="wheelAudio"
         >
             <template v-slot:selection-theme>
                 <div class="select__container">

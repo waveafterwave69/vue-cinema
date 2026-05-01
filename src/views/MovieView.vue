@@ -12,6 +12,7 @@ import MovieSeqPreq from '@/components/MovieSections/MovieSeqPreq.vue'
 import { useScrollTop } from '@/composables/useScrollTop'
 import { moviesApi } from '@/services/movies'
 import type { MovieFullInfo } from '@/types/movies'
+import LoadingComponent from '@/UI/Loading/LoadingComponent.vue'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -45,7 +46,7 @@ useScrollTop()
 
 <template>
     <main>
-        <img v-if="isLoading" class="loading" src="../img/spinner.svg" alt="" />
+        <div class="loading"><LoadingComponent :isLoading="isLoading" /></div>
         <div class="movie" v-if="movie && !isLoading">
             <MoviePromo :movie="movie" />
             <div class="movie" v-if="!showLater && !isLoading">
@@ -69,19 +70,6 @@ useScrollTop()
 }
 
 .loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-@media (max-width: 768px) {
-    .loading {
-        width: 100px;
-    }
+    margin-top: 100px;
 }
 </style>

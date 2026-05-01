@@ -14,9 +14,7 @@ const { movies, isLoading } = useMoviesSearch(
 
 <template>
     <section class="movies">
-        <div v-if="isLoading" class="movies__status">
-            <img class="spinner" src="../../img/spinner.svg" alt="Загрузка..." />
-        </div>
+        <LoadingComponent :isLoading="isLoading" />
 
         <div v-if="movies.length > 0 && !isLoading" class="movies__grid">
             <RouterLink
@@ -131,10 +129,6 @@ const { movies, isLoading } = useMoviesSearch(
     padding: 40px;
 }
 
-.spinner {
-    width: 120px;
-}
-
 .movies__empty {
     text-align: center;
     color: var(--color-secondary);
@@ -163,10 +157,6 @@ const { movies, isLoading } = useMoviesSearch(
         left: 5px;
         padding: 2px 8px;
         font-size: 12px;
-    }
-
-    .spinner {
-        width: 70px;
     }
 }
 </style>
