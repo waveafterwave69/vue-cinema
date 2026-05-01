@@ -16,7 +16,7 @@ interface Props {
 
 const props = defineProps<Props>()
 const audioEffect = new Audio(props.audio)
-audioEffect.volume = 0.3
+audioEffect.volume = 0.4
 const isOpen = ref(false)
 const rotation = ref(0)
 const isSpinning = ref(false)
