@@ -426,7 +426,7 @@ onUnmounted(() => {
 
 @media (max-width: 425px) {
     .close__btn {
-        top: -90px;
+        top: -75px;
         width: 40px;
         height: 40px;
     }
