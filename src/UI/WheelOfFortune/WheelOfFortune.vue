@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onUnmounted } from 'vue'
 
 interface Prize {
     text: string | null
@@ -64,6 +64,10 @@ watch(isOpen, (newValue) => {
         document.body.style.overflow = ''
     }
 })
+
+onUnmounted(() => {
+    document.body.style.overflow = ''
+})
 </script>
 
 <template>
@@ -72,8 +76,9 @@ watch(isOpen, (newValue) => {
     </button>
 
     <Transition name="fade">
-        <div v-if="isOpen" class="wheel__overlay" @click.self="toggleWheel">
+        <div v-if="isOpen" class="wheel__overlay">
             <div class="wheel__modal">
+                <slot name="selection-theme" />
                 <button class="close__btn" @click="toggleWheel">✕</button>
                 <div class="wheel__container">
                     <div class="wheel-outer-decoration"></div>
@@ -192,7 +197,7 @@ watch(isOpen, (newValue) => {
 
 .close__btn {
     position: absolute;
-    top: -90px;
+    top: -30px;
     right: 0;
     background: none;
     border: 1px solid rgba(255, 255, 255, 0.4);
@@ -289,7 +294,7 @@ watch(isOpen, (newValue) => {
 }
 
 .hint__text {
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--color-secondary);
     font-style: italic;
 }
 
@@ -334,7 +339,7 @@ watch(isOpen, (newValue) => {
     }
 
     .close__btn {
-        top: -50px;
+        top: -20px;
         right: 0;
         width: 40px;
         height: 40px;
@@ -382,7 +387,7 @@ watch(isOpen, (newValue) => {
     }
 
     .close__btn {
-        top: -130px;
+        top: -30px;
         width: 40px;
         height: 40px;
     }
@@ -421,7 +426,7 @@ watch(isOpen, (newValue) => {
 
 @media (max-width: 425px) {
     .close__btn {
-        top: -150px;
+        top: -90px;
         width: 40px;
         height: 40px;
     }

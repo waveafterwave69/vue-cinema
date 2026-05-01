@@ -29,6 +29,7 @@ declare module 'vue' {
     MovieSame: typeof import('./src/components/MovieSections/MovieSame.vue')['default']
     MovieSeqPreq: typeof import('./src/components/MovieSections/MovieSeqPreq.vue')['default']
     MovieSource: typeof import('./src/components/Movie/MovieSource.vue')['default']
+    MoviesWheel: typeof import('./src/components/MoviesWheel.vue')['default']
     Promo: typeof import('./src/components/Promo/Promo.vue')['default']
     PromoComponent: typeof import('./src/components/Promo/PromoComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

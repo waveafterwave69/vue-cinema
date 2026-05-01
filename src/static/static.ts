@@ -15,42 +15,47 @@ export const collections: CollectionsType[] = [
 export const searchCollection: SearchCollection[] = [
     {
         id: 1,
+        name: 'лучшее',
+        type: 'TOP_250_MOVIES',
+    },
+    {
+        id: 2,
         name: 'популярное',
         type: 'TOP_POPULAR_ALL',
     },
 
     {
-        id: 2,
+        id: 3,
         name: 'любовь',
         type: 'LOVE_THEME',
     },
     {
-        id: 3,
+        id: 4,
         name: 'катастрофа',
         type: 'CATASTROPHE_THEME',
     },
     {
-        id: 4,
+        id: 5,
         name: 'зомби',
         type: 'ZOMBIE_THEME',
     },
     {
-        id: 5,
+        id: 6,
         name: 'вампиры',
         type: 'VAMPIRE_THEME',
     },
     {
-        id: 6,
+        id: 7,
         name: 'для семьи',
         type: 'FAMILY',
     },
     {
-        id: 7,
+        id: 8,
         name: 'комиксы',
         type: 'COMICS_THEME',
     },
     {
-        id: 8,
+        id: 9,
         name: 'для детей',
         type: 'KIDS_ANIMATION_THEME',
     },

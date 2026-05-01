@@ -8,9 +8,9 @@ import type { CollectionsType, Movie } from '@/types/movies'
 import CategoriesComponent from '@/components/CategoriesComponent.vue'
 import { useScrollTop } from '@/composables/useScrollTop'
 import { useMoviesSearch } from '@/composables/useMovieSearch'
-import WheelOfFortune from '@/UI/WheelOfFortune/WheelOfFortune.vue'
+import MoviesWheel from '@/components/MoviesWheel.vue'
 
-const bestFilms = ref<Movie[]>([])
+const bestMovies = ref<Movie[]>([])
 const currentPage = ref(1)
 const isLoading = ref(false)
 const isEnd = ref(false)
@@ -23,7 +23,7 @@ const fetchMovies = async () => {
         const movieData = await moviesApi.getMoviesCategory('TOP_250_MOVIES', currentPage.value)
 
         if (movieData.items?.length) {
-            bestFilms.value.push(...movieData.items)
+            bestMovies.value.push(...movieData.items)
             currentPage.value++
         } else {
             isEnd.value = true
@@ -49,27 +49,16 @@ useScrollTop()
 </script>
 
 <template>
+    <MoviesWheel />
     <main class="container">
         <HomePromo class="section-margin" />
-        <WheelOfFortune
-            v-if="bestFilms.length"
-            :prizes="
-                bestFilms.slice(0, 14).map((m) => ({
-                    text: m.nameRu || m.nameEn,
-                    id: m.kinopoiskId,
-                    img: m.posterUrl,
-                }))
-            "
-            buttonText="🎡 Рандомайзер"
-            whellText="Крути колесо, чтобы выбрать фильм!"
-        />
         <div class="best">
             <SwiperComponent
-                v-if="bestFilms.length"
+                v-if="bestMovies.length"
                 swiperTitle="Лучшие фильмы"
                 @loadMore="fetchMovies"
             >
-                <SwiperSlide v-for="movie in bestFilms" :key="movie.kinopoiskId">
+                <SwiperSlide v-for="movie in bestMovies" :key="movie.kinopoiskId">
                     <RouterLink :to="`/film/${movie.kinopoiskId}`" class="card">
                         <div class="movie__poster">
                             <img
@@ -89,7 +78,7 @@ useScrollTop()
 
         <div class="categories">
             <CategoriesComponent />
-            <SwiperComponent v-if="bestFilms.length" swiperTitle="" @loadMore="fetchMovies">
+            <SwiperComponent v-if="bestMovies.length" swiperTitle="" @loadMore="fetchMovies">
                 <SwiperSlide v-for="movie in movies" :key="movie.kinopoiskId">
                     <RouterLink :to="`/film/${movie.kinopoiskId}`" class="card">
                         <div class="movie__poster">
