@@ -23,3 +23,21 @@ export const formatDate = (dateString: string) => {
         year: 'numeric',
     })
 }
+
+export const formatAge = (age: number) => {
+    const lastDigit = Number(String(age).at(-1))
+
+    if (age >= 11 && age <= 15) {
+        return `${age} лет`
+    }
+
+    if (lastDigit === 1) {
+        return `${age} год`
+    }
+
+    if (lastDigit >= 2 && lastDigit <= 4) {
+        return `${age} года`
+    }
+
+    return `${age} лет`
+}

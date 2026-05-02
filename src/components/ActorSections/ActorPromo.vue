@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Actor } from '@/types/actors'
+import { formatAge } from '@/utils/formatters'
 import { motion } from 'motion-v'
 import { computed } from 'vue'
 
@@ -52,7 +53,7 @@ const randomFact = computed(() => {
                     </div>
 
                     <div class="actor-hero__meta">
-                        <div class="meta-badge">{{ actor.age }} лет</div>
+                        <div class="meta-badge" v-if="actor.age">{{ formatAge(actor.age) }}</div>
                         <span class="meta-dot"></span>
                         <span class="meta-item">{{ actor.birthplace }}</span>
                     </div>
