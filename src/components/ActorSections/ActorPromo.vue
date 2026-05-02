@@ -39,6 +39,9 @@ const randomFact = computed(() => {
                 :transition="{ delay: 0.3, duration: 0.8 }"
             >
                 <img :src="actor.posterUrl" :alt="actor.nameRu" class="actor-hero__poster" />
+                <button class="btn-icon">
+                    <img src="../../img/heart.png" alt="В избранное" />
+                </button>
             </motion.div>
 
             <div class="actor-hero__info">
@@ -53,7 +56,9 @@ const randomFact = computed(() => {
                     </div>
 
                     <div class="actor-hero__meta">
-                        <div class="meta-badge" v-if="actor.age">{{ formatAge(actor.age) }}</div>
+                        <div class="meta-badge" v-if="actor.age && !actor.death">
+                            {{ formatAge(actor.age) }}
+                        </div>
                         <span class="meta-dot"></span>
                         <span class="meta-item">{{ actor.birthplace }}</span>
                     </div>
@@ -69,15 +74,6 @@ const randomFact = computed(() => {
                             <button class="button-default">Полная биография</button>
                             <button class="button-glass">
                                 Фильмография <span>({{ actor.films?.length }})</span>
-                            </button>
-                        </div>
-
-                        <div class="actor-hero__social">
-                            <button class="btn-icon">
-                                <img src="../../img/heart.png" alt="" />
-                            </button>
-                            <button class="btn-icon">
-                                <img src="../../img/like.png" alt="" />
                             </button>
                         </div>
                     </div>
@@ -195,7 +191,7 @@ const randomFact = computed(() => {
     font-size: 18px;
     line-height: 1.6;
     font-style: italic;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--color-secondary);
 }
 
 .actor-hero__footer {
@@ -225,6 +221,10 @@ const randomFact = computed(() => {
     justify-content: center;
     cursor: pointer;
     transition: 0.3s;
+    position: absolute;
+    z-index: 100;
+    left: 10px;
+    top: 10px;
 }
 
 .btn-icon:hover {
@@ -232,7 +232,7 @@ const randomFact = computed(() => {
 }
 
 .btn-icon img {
-    width: 25px;
+    width: 24px;
     filter: brightness(2);
 }
 

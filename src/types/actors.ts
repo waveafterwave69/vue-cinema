@@ -14,4 +14,5 @@ export interface Actor {
     films?: Movie[]
     facts: string[]
     profession: string
+    death?: string
 }
