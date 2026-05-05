@@ -8,10 +8,16 @@ export const useMoviesSearch = (
     getCurrentTheme: () => CollectionsType,
 ) => {
     const movies = ref<Movie[]>([])
-    const isLoading = ref(false)
+    const isLoading = ref(true)
+    const currentPage = ref<number>(1)
+    const totalPages = ref<number>(0)
 
     let debounceTimeout: ReturnType<typeof setTimeout>
     let abortController: AbortController | null = null
+
+    const changePageCount = (newPageCount: number) => {
+        currentPage.value = newPageCount
+    }
 
     const fetchMovies = async () => {
         if (abortController) abortController.abort()
@@ -25,12 +31,13 @@ export const useMoviesSearch = (
         try {
             let data
             if (query) {
-                data = await moviesApi.getMovieSearchValue(query, 1)
+                data = await moviesApi.getMovieSearchValue(query, currentPage.value)
             } else {
-                data = await moviesApi.getMoviesCategory(theme, 1)
+                data = await moviesApi.getMoviesCategory(theme, currentPage.value)
             }
+            console.log(data)
             movies.value = data.films || data.items || []
-            console.log(movies.value)
+            totalPages.value = data.totalPages || data.pagesCount
         } catch (err: unknown) {
             if (axios.isCancel(err) || (err instanceof Error && err.name === 'AbortError')) return
         } finally {
@@ -39,7 +46,7 @@ export const useMoviesSearch = (
     }
 
     watch(
-        [getSearchValue, getCurrentTheme],
+        [getSearchValue, getCurrentTheme, currentPage],
         () => {
             clearTimeout(debounceTimeout)
             debounceTimeout = setTimeout(fetchMovies, 400)
@@ -47,10 +54,14 @@ export const useMoviesSearch = (
         { immediate: true },
     )
 
+    watch([getSearchValue, getCurrentTheme], () => {
+        currentPage.value = 1
+    })
+
     onUnmounted(() => {
         clearTimeout(debounceTimeout)
         abortController?.abort()
     })
 
-    return { movies, isLoading }
+    return { movies, isLoading, totalPages, currentPage, changePageCount }
 }

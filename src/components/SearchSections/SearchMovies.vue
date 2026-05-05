@@ -2,11 +2,12 @@
 import { inject, type Ref } from 'vue'
 import { useMoviesSearch } from '@/composables/useMovieSearch'
 import type { CollectionsType } from '@/types/movies'
+import LoadingComponent from '@/UI/Loading/LoadingComponent.vue'
 
 const searchValue = inject<Ref<string>>('search-value')
 const currentTheme = inject<Ref<CollectionsType>>('current-theme')
 
-const { movies, isLoading } = useMoviesSearch(
+const { movies, isLoading, totalPages, currentPage, changePageCount } = useMoviesSearch(
     () => searchValue?.value ?? '',
     () => currentTheme?.value ?? 'TOP_POPULAR_ALL',
 )
@@ -46,6 +47,30 @@ const { movies, isLoading } = useMoviesSearch(
         <div v-else-if="movies.length === 0 && searchValue" class="movies__empty">
             <p>По вашему запросу ничего не найдено 🍿</p>
         </div>
+
+        <div class="pagination" v-if="totalPages && movies.length > 0 && !isLoading">
+            <div class="button__row">
+                <button
+                    :disabled="currentPage <= 1"
+                    @click="changePageCount(currentPage - 1)"
+                    :class="['button-glass', 'more-button', currentPage <= 1 && 'button-blocked']"
+                >
+                    Предыдущая
+                </button>
+                <button
+                    :disabled="currentPage >= totalPages"
+                    @click="changePageCount(currentPage + 1)"
+                    :class="[
+                        'button-glass',
+                        'more-button',
+                        currentPage >= totalPages && 'button-blocked',
+                    ]"
+                >
+                    Следующая
+                </button>
+            </div>
+            <p class="pages__count">Страница: {{ `${currentPage}/${totalPages}` }}</p>
+        </div>
     </section>
 </template>
 
@@ -53,7 +78,7 @@ const { movies, isLoading } = useMoviesSearch(
 .movies {
     margin-top: 30px;
     min-height: 400px;
-    margin-bottom: 50px;
+    margin-bottom: 100px;
 }
 
 .movies__grid {
@@ -135,7 +160,32 @@ const { movies, isLoading } = useMoviesSearch(
     margin-top: 50px;
 }
 
+.button__row {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    justify-content: center;
+}
+
+.button-blocked {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+.pages__count {
+    letter-spacing: 2px;
+    color: var(--color-secondary);
+    text-align: center;
+    margin-top: 20px;
+}
+
 @media (max-width: 1024px) {
+    .button__row {
+        margin-top: 20px;
+        column-gap: 15px;
+    }
+
     .movies {
         margin-top: 20px;
     }
@@ -147,6 +197,11 @@ const { movies, isLoading } = useMoviesSearch(
 }
 
 @media (max-width: 768px) {
+    .button__row {
+        margin-top: 20px;
+        column-gap: 15px;
+    }
+
     .movies__grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 12px;
@@ -157,6 +212,18 @@ const { movies, isLoading } = useMoviesSearch(
         left: 5px;
         padding: 2px 8px;
         font-size: 12px;
+    }
+}
+
+@media (max-width: 425px) {
+    .button__row {
+        column-gap: 10px;
+        margin-top: 30px;
+    }
+
+    .pages__count {
+        font-size: 15px;
+        margin-top: 10px;
     }
 }
 </style>
