@@ -11,40 +11,41 @@ import { useMoviesSearch } from '@/composables/useMovieSearch'
 import MoviesWheel from '@/components/MoviesWheel.vue'
 
 const bestMovies = ref<Movie[]>([])
-const currentPage = ref(1)
-const isLoading = ref(false)
-const isEnd = ref(false)
+const bestPage = ref(1)
+const isBestLoading = ref(false)
+const isBestEnd = ref(false)
 
-const fetchMovies = async () => {
-    if (isLoading.value || isEnd.value) return
-
-    isLoading.value = true
+const fetchBestMovies = async () => {
+    if (isBestLoading.value || isBestEnd.value) return
+    isBestLoading.value = true
     try {
-        const movieData = await moviesApi.getMoviesCategory('TOP_250_MOVIES', currentPage.value)
-
+        const movieData = await moviesApi.getMoviesCategory('TOP_250_MOVIES', bestPage.value)
         if (movieData.items?.length) {
             bestMovies.value.push(...movieData.items)
-            currentPage.value++
+            bestPage.value++
         } else {
-            isEnd.value = true
+            isBestEnd.value = true
         }
     } catch (err) {
-        console.error('Ошибка загрузки фильмов:', err)
+        console.error('Ошибка загрузки лучших фильмов:', err)
     } finally {
-        isLoading.value = false
+        isBestLoading.value = false
     }
 }
 
 const searchValue = inject<Ref<string>>('search-value')
 const currentTheme = inject<Ref<CollectionsType>>('current-theme')
 
-const { movies } = useMoviesSearch(
+const {
+    movies: categoryMovies,
+    fetchNextPage,
+    isLoading: isCategoryLoading,
+} = useMoviesSearch(
     () => searchValue?.value ?? '',
     () => currentTheme?.value ?? 'TOP_POPULAR_ALL',
 )
 
-onMounted(fetchMovies)
-
+onMounted(fetchBestMovies)
 useScrollTop()
 </script>
 
@@ -52,11 +53,12 @@ useScrollTop()
     <MoviesWheel />
     <main class="container">
         <HomePromo class="section-margin" />
+
         <div class="best">
             <SwiperComponent
                 v-if="bestMovies.length"
                 swiperTitle="Лучшие фильмы"
-                @loadMore="fetchMovies"
+                @loadMore="fetchBestMovies"
             >
                 <SwiperSlide v-for="movie in bestMovies" :key="movie.kinopoiskId">
                     <RouterLink :to="`/film/${movie.kinopoiskId}`" class="card">
@@ -78,9 +80,12 @@ useScrollTop()
 
         <div class="categories">
             <CategoriesComponent />
-            <SwiperComponent v-if="bestMovies.length" swiperTitle="" @loadMore="fetchMovies">
-                <SwiperSlide v-for="movie in movies" :key="movie.kinopoiskId">
-                    <RouterLink :to="`/film/${movie.kinopoiskId}`" class="card">
+            <SwiperComponent v-if="categoryMovies.length" swiperTitle="" @loadMore="fetchNextPage">
+                <SwiperSlide
+                    v-for="movie in categoryMovies"
+                    :key="movie.kinopoiskId || movie.filmId"
+                >
+                    <RouterLink :to="`/film/${movie.kinopoiskId || movie.filmId}`" class="card">
                         <div class="movie__poster">
                             <img
                                 :src="movie.posterUrl"
@@ -88,23 +93,21 @@ useScrollTop()
                                 class="card__img"
                                 loading="lazy"
                             />
-                            <div v-if="movie.ratingKinopoisk" class="movie__rating">
-                                {{ movie.ratingKinopoisk }}
+                            <div v-if="movie.ratingKinopoisk || movie.rating" class="movie__rating">
+                                {{ movie.ratingKinopoisk || movie.rating }}
                             </div>
                         </div>
                     </RouterLink>
                 </SwiperSlide>
             </SwiperComponent>
+
+            <div v-if="isCategoryLoading" class="loader">Загрузка...</div>
         </div>
     </main>
 </template>
 
 <style scoped>
 .container {
-    margin-bottom: 50px;
-}
-
-.component__margin {
     margin-bottom: 50px;
 }
 
@@ -122,6 +125,10 @@ useScrollTop()
     background-color: var(--color-bg2);
 }
 
+.movie__poster {
+    position: relative;
+}
+
 .movie__rating {
     position: absolute;
     top: 8px;
@@ -134,31 +141,12 @@ useScrollTop()
     font-size: 13px;
     z-index: 10;
 }
-
-.loader {
-    width: 120px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    margin-top: -50px;
-}
-
 .categories {
     margin-top: 50px;
 }
 
-@media (max-width: 768px) {
-    .component__margin {
-        margin-bottom: 40px;
-    }
-
-    .loader {
-        width: 100px;
-        margin-top: 0px;
-    }
-
-    .categories {
-        margin-top: 20px;
-    }
+.loader {
+    text-align: center;
+    padding: 20px;
 }
 </style>
