@@ -54,12 +54,8 @@ useScrollTop()
     <main class="container">
         <HomePromo class="section-margin" />
 
-        <div class="best">
-            <SwiperComponent
-                v-if="bestMovies.length"
-                swiperTitle="Лучшие фильмы"
-                @loadMore="fetchBestMovies"
-            >
+        <div class="best" v-if="bestMovies.length">
+            <SwiperComponent swiperTitle="Лучшие фильмы" @loadMore="fetchBestMovies">
                 <SwiperSlide v-for="movie in bestMovies" :key="movie.kinopoiskId">
                     <RouterLink :to="`/film/${movie.kinopoiskId}`" class="card">
                         <div class="movie__poster">
@@ -78,9 +74,9 @@ useScrollTop()
             </SwiperComponent>
         </div>
 
-        <div class="categories">
+        <div class="categories" v-if="categoryMovies.length">
             <CategoriesComponent />
-            <SwiperComponent v-if="categoryMovies.length" swiperTitle="" @loadMore="fetchNextPage">
+            <SwiperComponent swiperTitle="" @loadMore="fetchNextPage">
                 <SwiperSlide
                     v-for="movie in categoryMovies"
                     :key="movie.kinopoiskId || movie.filmId"
