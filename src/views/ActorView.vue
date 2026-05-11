@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import ActorMovies from '@/components/ActorSections/ActorMovies.vue'
 import ActorPromo from '@/components/ActorSections/ActorPromo.vue'
 import { useScrollTop } from '@/composables/useScrollTop'
 import { actorsApi } from '@/services/actors'
 import type { Actor } from '@/types/actors'
+import type { Movie } from '@/types/movies'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const actor = ref<Actor | null>(null)
+const actorMovies = ref<Movie[] | null>(null)
 const isLoading = ref(true)
 const error = ref<string | null>(null)
 
@@ -18,7 +21,9 @@ onMounted(async () => {
     if (!id) return
 
     try {
-        actor.value = await actorsApi.getActorInfo(id)
+        const actorData = await actorsApi.getActorInfo(id)
+        actor.value = actorData
+        actorMovies.value = actorData.films
         console.log(actor.value)
     } catch (err) {
         error.value = 'Не удалось загрузить данные'
@@ -32,9 +37,14 @@ useScrollTop()
 </script>
 
 <template>
-    <div v-if="actor">
+    <div v-if="actor" class="actor">
         <ActorPromo :actor="actor" />
+        <ActorMovies v-if="actorMovies" :movies="actorMovies" />
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.actor {
+    background-color: #131313;
+}
+</style>

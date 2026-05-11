@@ -29,6 +29,7 @@ export interface Movie extends MovieBase {
     ratingAgeLimits: string | null
     filmId?: string
     rating?: string
+    professionKey?: string
 }
 
 export interface MovieFullInfo extends MovieBase {

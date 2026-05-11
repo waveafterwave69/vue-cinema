@@ -26,11 +26,8 @@ const randomFact = computed(() => {
         :initial="{ opacity: 0 }"
         :animate="{ opacity: 1 }"
         :transition="{ duration: 1.2 }"
+        class="actor"
     >
-        <div class="actor-hero__bg">
-            <img :src="actor.posterUrl" alt="" />
-        </div>
-
         <div class="actor-hero__container container">
             <motion.div
                 class="actor-hero__poster-wrapper"
@@ -88,13 +85,6 @@ const randomFact = computed(() => {
     position: absolute;
     inset: 0;
     z-index: 0;
-}
-
-.actor-hero__bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: blur(100px) brightness(0.2);
 }
 
 .actor-hero__bg::after {
@@ -214,8 +204,8 @@ const randomFact = computed(() => {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.25);
+    border: 2px solid rgba(0, 0, 0, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -228,7 +218,7 @@ const randomFact = computed(() => {
 }
 
 .btn-icon:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.45);
 }
 
 .btn-icon img {
