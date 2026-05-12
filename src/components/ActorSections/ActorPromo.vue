@@ -19,6 +19,13 @@ const randomFact = computed(() => {
     const fact = props.actor.facts[Math.floor(Math.random() * props.actor.facts.length)]
     return fact
 })
+
+const scrollToMovies = () => {
+    const element = document.getElementById('movies-section')
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+    }
+}
 </script>
 
 <template>
@@ -68,8 +75,7 @@ const randomFact = computed(() => {
 
                     <div class="actor-hero__footer">
                         <div class="actor-hero__actions">
-                            <button class="button-default">Полная биография</button>
-                            <button class="button-glass">
+                            <button class="button-glass" @click="scrollToMovies">
                                 Фильмография <span>({{ actor.films?.length }})</span>
                             </button>
                         </div>

@@ -39,7 +39,7 @@ useScrollTop()
 <template>
     <div v-if="actor" class="actor">
         <ActorPromo :actor="actor" />
-        <ActorMovies v-if="actorMovies" :movies="actorMovies" />
+        <ActorMovies id="movies-section" v-if="actorMovies" :movies="actorMovies" />
     </div>
 </template>
 
