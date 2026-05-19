@@ -61,11 +61,19 @@ const toggleWheel = () => {
     isOpen.value = !isOpen.value
 }
 
+const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+        isOpen.value = false
+    }
+}
+
 watch(isOpen, (newValue) => {
     if (newValue) {
         document.body.style.overflow = 'hidden'
+        window.addEventListener('keydown', handleKeyDown)
     } else {
         document.body.style.overflow = ''
+        window.removeEventListener('keydown', handleKeyDown)
     }
 })
 
@@ -329,7 +337,7 @@ onUnmounted(() => {
     transform: translateY(20px);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .wheel__trigger {
         bottom: 15px;
         right: 15px;

@@ -63,8 +63,10 @@ const scrollToMovies = () => {
                         <div class="meta-badge" v-if="actor.age && !actor.death">
                             {{ formatAge(actor.age) }}
                         </div>
-                        <span class="meta-dot"></span>
-                        <span class="meta-item">{{ actor.birthplace }}</span>
+                        <span class="meta-dot" v-if="actor.birthplace"></span>
+                        <span class="meta-item" v-if="actor.birthplace">{{
+                            actor.birthplace
+                        }}</span>
                     </div>
 
                     <p class="actor-hero__professions">{{ professions }}</p>
@@ -232,10 +234,11 @@ const scrollToMovies = () => {
     filter: brightness(2);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .actor-hero__container {
         column-gap: 30px;
         margin-top: 30px;
+        margin-bottom: 100px;
     }
 
     .actor-hero__poster-wrapper {

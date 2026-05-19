@@ -64,7 +64,7 @@ onMounted(async () => {
     width: 80px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .platforms {
         margin-top: 50px;
     }

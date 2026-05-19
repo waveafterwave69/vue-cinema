@@ -200,7 +200,7 @@ const starRating = computed(() => Math.round((props.movie.ratingKinopoisk || 0) 
     transform: translateY(-2px);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .promo {
         margin-top: 80px;
     }

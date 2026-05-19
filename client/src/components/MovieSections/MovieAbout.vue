@@ -77,7 +77,7 @@ defineProps<Props>()
     font-size: 14px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .description__short {
         font-size: 19px;
     }

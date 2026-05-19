@@ -155,7 +155,7 @@ button:hover {
     border-bottom: 1px solid var(--color-main);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .header {
         padding: 0px 30px 0px 13px;
         top: 15px;

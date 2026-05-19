@@ -104,7 +104,7 @@ const onInput = (e: Event) => {
     transform: scale(1.05);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .promo {
         margin-top: 25px;
     }

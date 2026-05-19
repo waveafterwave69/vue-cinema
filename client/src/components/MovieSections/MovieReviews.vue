@@ -174,7 +174,7 @@ onMounted(fetchMovies)
     scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .reviews {
         margin-top: 70px;
     }

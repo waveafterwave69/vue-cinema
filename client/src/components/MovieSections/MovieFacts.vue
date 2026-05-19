@@ -227,7 +227,7 @@ onMounted(async () => {
     font-size: 18px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .facts {
         margin-top: 50px;
     }

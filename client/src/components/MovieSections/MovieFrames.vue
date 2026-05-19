@@ -152,7 +152,7 @@ const closeImage = () => {
     opacity: 0.4;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .frames {
         margin-top: 40px;
     }

@@ -81,7 +81,7 @@ a:focus-visible {
     outline: auto;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .button-default,
     .button-glass {
         padding: 12px 30px;

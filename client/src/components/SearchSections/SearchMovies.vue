@@ -180,7 +180,7 @@ const { movies, isLoading, totalPages, currentPage, changePageCount } = useMovie
     margin-top: 20px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .button__row {
         margin-top: 20px;
         column-gap: 15px;

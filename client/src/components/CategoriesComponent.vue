@@ -46,7 +46,7 @@ const handleThemeChange = (theme: CollectionsType) => {
     background: var(--color-bg2);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .category-btn {
         width: 100%;
         padding: 10px 15px;

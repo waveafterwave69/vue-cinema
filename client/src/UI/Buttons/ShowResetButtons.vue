@@ -50,7 +50,7 @@ const handleReset = () => {
     opacity: 0.4;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .button__row {
         margin-top: 20px;
         column-gap: 15px;
