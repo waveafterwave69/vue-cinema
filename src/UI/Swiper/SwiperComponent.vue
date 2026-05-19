@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Swiper } from 'swiper/vue'
 import { Autoplay } from 'swiper/modules'
-import { computed } from 'vue' // Импортируем computed
+import { computed } from 'vue'
 import 'swiper/css'
 
 interface Props {
