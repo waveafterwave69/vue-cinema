@@ -6,15 +6,27 @@ import { onMounted, ref } from 'vue'
 const { movie, getMovies } = useGetRandomMovie()
 const isLoading = ref(true)
 
-onMounted(async () => {
+const loadRandomMovie = async () => {
+    isLoading.value = true
     try {
         await getMovies()
+        if (!movie.value?.posterUrl) {
+            await loadRandomMovie()
+        }
+    } catch (err) {
+        console.error('Ошибка загрузки рандомного фильма:', err)
     } finally {
         setTimeout(() => {
             isLoading.value = false
         }, 500)
     }
-})
+}
+
+const handleImageError = async () => {
+    await loadRandomMovie()
+}
+
+onMounted(loadRandomMovie)
 </script>
 
 <template>
@@ -42,7 +54,12 @@ onMounted(async () => {
         <div v-else-if="movie" class="promo">
             <div class="promo__left">
                 <RouterLink class="promo__img-wrapper" :to="`/film/${movie.kinopoiskId}`">
-                    <img :src="movie.posterUrl" alt="" class="promo__img" />
+                    <img
+                        :src="movie.posterUrl"
+                        alt=""
+                        class="promo__img"
+                        @error="handleImageError"
+                    />
                     <span class="promo__badge" v-if="movie.year === new Date().getFullYear()"
                         >Новинка</span
                     >
@@ -79,7 +96,7 @@ onMounted(async () => {
                         </a>
                         <a
                             v-if="movie.ratingKinopoisk"
-                            :href="`https://kinopoisk.ru{movie.kinopoiskId}`"
+                            :href="`https://kinopoisk.ru{movie.kinopoiskId}/`"
                             target="_blank"
                             class="rating-pill kp"
                         >

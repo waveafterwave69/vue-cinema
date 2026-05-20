@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, onMounted, ref, type Ref } from 'vue'
+import { inject, onMounted, ref, type Ref, computed, watch } from 'vue'
 import { SwiperSlide } from 'swiper/vue'
 import SwiperComponent from '@/UI/Swiper/SwiperComponent.vue'
 import HomePromo from '@/components/HomeSections/HomePromo.vue'
@@ -14,6 +14,9 @@ const bestMovies = ref<Movie[]>([])
 const bestPage = ref(1)
 const isBestLoading = ref(false)
 const isBestEnd = ref(false)
+
+const failedBestImageIds = ref<string[]>([])
+const failedCategoryImageIds = ref<string[]>([])
 
 const fetchBestMovies = async () => {
     if (isBestLoading.value || isBestEnd.value) return
@@ -45,6 +48,38 @@ const {
     () => currentTheme?.value ?? 'TOP_POPULAR_ALL',
 )
 
+watch([searchValue, currentTheme], () => {
+    failedCategoryImageIds.value = []
+})
+
+// Вычисляемый массив для лучших фильмов
+const validBestMovies = computed(() => {
+    return bestMovies.value.filter((movie) => {
+        const id = movie.kinopoiskId || movie.filmId
+        return movie.posterUrl && id && !failedBestImageIds.value.includes(id)
+    })
+})
+
+// Вычисляемый массив для фильмов по категориям
+const validCategoryMovies = computed(() => {
+    return categoryMovies.value.filter((movie) => {
+        const id = movie.kinopoiskId || movie.filmId
+        return movie.posterUrl && id && !failedCategoryImageIds.value.includes(id)
+    })
+})
+
+const handleBestImageError = (id: string | undefined) => {
+    if (id && !failedBestImageIds.value.includes(id)) {
+        failedBestImageIds.value.push(id)
+    }
+}
+
+const handleCategoryImageError = (id: string | undefined) => {
+    if (id && !failedCategoryImageIds.value.includes(id)) {
+        failedCategoryImageIds.value.push(id)
+    }
+}
+
 onMounted(fetchBestMovies)
 useScrollTop()
 </script>
@@ -54,16 +89,21 @@ useScrollTop()
     <main class="container">
         <HomePromo class="section-margin" />
 
-        <div class="best" v-if="bestMovies.length">
+        <!-- Используем validBestMovies -->
+        <div class="best" v-if="validBestMovies.length">
             <SwiperComponent swiperTitle="Лучшие фильмы" @loadMore="fetchBestMovies">
-                <SwiperSlide v-for="movie in bestMovies" :key="movie.kinopoiskId">
-                    <RouterLink :to="`/film/${movie.kinopoiskId}`" class="card">
+                <SwiperSlide
+                    v-for="movie in validBestMovies"
+                    :key="movie.kinopoiskId || movie.filmId"
+                >
+                    <RouterLink :to="`/film/${movie.kinopoiskId || movie.filmId}`" class="card">
                         <div class="movie__poster">
                             <img
                                 :src="movie.posterUrl"
                                 :alt="movie.nameRu"
                                 class="card__img"
                                 loading="lazy"
+                                @error="handleBestImageError(movie.kinopoiskId || movie.filmId)"
                             />
                             <div v-if="movie.ratingKinopoisk" class="movie__rating">
                                 {{ movie.ratingKinopoisk }}
@@ -74,11 +114,12 @@ useScrollTop()
             </SwiperComponent>
         </div>
 
-        <div class="categories" v-if="categoryMovies.length">
+        <!-- Используем validCategoryMovies -->
+        <div class="categories" v-if="validCategoryMovies.length">
             <CategoriesComponent />
             <SwiperComponent swiperTitle="" @loadMore="fetchNextPage">
                 <SwiperSlide
-                    v-for="movie in categoryMovies"
+                    v-for="movie in validCategoryMovies"
                     :key="movie.kinopoiskId || movie.filmId"
                 >
                     <RouterLink :to="`/film/${movie.kinopoiskId || movie.filmId}`" class="card">
@@ -88,6 +129,7 @@ useScrollTop()
                                 :alt="movie.nameRu"
                                 class="card__img"
                                 loading="lazy"
+                                @error="handleCategoryImageError(movie.kinopoiskId || movie.filmId)"
                             />
                             <div v-if="movie.ratingKinopoisk || movie.rating" class="movie__rating">
                                 {{ movie.ratingKinopoisk || movie.rating }}
@@ -103,6 +145,7 @@ useScrollTop()
 </template>
 
 <style scoped>
+/* Стили оставлены без изменений */
 .container {
     margin-bottom: 50px;
 }

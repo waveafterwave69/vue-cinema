@@ -45,6 +45,13 @@ const isMenuOpen = ref(false)
                 </li>
                 <li>
                     <button>
+                        <RouterLink to="/chat" class="button__item button-search">
+                            <img src="../img/chat.png" class="button__img" alt="" />
+                        </RouterLink>
+                    </button>
+                </li>
+                <li>
+                    <button>
                         <RouterLink to="/profile" class="button__item button-profile">
                             <img src="../img/profile.svg" class="button__img" alt="" />
                         </RouterLink>

@@ -3,7 +3,7 @@ import { moviesApi } from '@/services/movies'
 import type { MovieFullInfo } from '@/types/movies'
 import SwiperComponent from '@/UI/Swiper/SwiperComponent.vue'
 import { SwiperSlide } from 'swiper/vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
 interface Props {
@@ -25,6 +25,8 @@ const props = defineProps<Props>()
 const movies = ref<SameMovie[]>([])
 const isLoading = ref(false)
 
+const failedMovieIds = ref<number[]>([])
+
 const fetchMovies = async () => {
     isLoading.value = true
     try {
@@ -38,14 +40,26 @@ const fetchMovies = async () => {
     }
 }
 
+const validMovies = computed(() => {
+    return movies.value.filter((movie) => {
+        return movie.posterUrl && movie.filmId && !failedMovieIds.value.includes(movie.filmId)
+    })
+})
+
+const handleImageError = (id: number) => {
+    if (id && !failedMovieIds.value.includes(id)) {
+        failedMovieIds.value.push(id)
+    }
+}
+
 onMounted(fetchMovies)
 </script>
 
 <template>
-    <section class="movies" v-if="movies.length > 0">
+    <section class="movies" v-if="validMovies.length > 0">
         <div class="container">
-            <SwiperComponent v-if="movies.length" swiperTitle="Другие части фильма">
-                <SwiperSlide v-for="movie in movies" :key="movie.filmId">
+            <SwiperComponent swiperTitle="Другие части фильма">
+                <SwiperSlide v-for="movie in validMovies" :key="movie.filmId">
                     <RouterLink :to="`/film/${movie.filmId}`">
                         <div class="movie__poster">
                             <img
@@ -53,6 +67,7 @@ onMounted(fetchMovies)
                                 :alt="movie.nameRu"
                                 class="card__img"
                                 loading="lazy"
+                                @error="handleImageError(movie.filmId)"
                             />
                         </div>
                     </RouterLink>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, type Ref } from 'vue'
+import { inject, type Ref, ref, watch, computed, onUnmounted } from 'vue'
 import { useMoviesSearch } from '@/composables/useMovieSearch'
 import type { CollectionsType } from '@/types/movies'
 import LoadingComponent from '@/UI/Loading/LoadingComponent.vue'
@@ -11,25 +11,57 @@ const { movies, isLoading, totalPages, currentPage, changePageCount } = useMovie
     () => searchValue?.value ?? '',
     () => currentTheme?.value ?? 'TOP_POPULAR_ALL',
 )
+
+const failedImageIds = ref<string[]>([])
+
+watch([currentPage, searchValue, currentTheme], () => {
+    failedImageIds.value = []
+})
+
+watch([currentTheme], () => {
+    if (searchValue) {
+        searchValue.value = ''
+    }
+})
+
+onUnmounted(() => {
+    if (searchValue) {
+        searchValue.value = ''
+    }
+})
+
+const validMovies = computed(() => {
+    return movies.value.filter((movie) => {
+        const id = movie.filmId || movie.kinopoiskId
+        return movie.posterUrl && id && !failedImageIds.value.includes(id)
+    })
+})
+
+const handleImageError = (id: string) => {
+    if (id && !failedImageIds.value.includes(id)) {
+        failedImageIds.value.push(id)
+    }
+}
 </script>
 
 <template>
     <section class="movies">
         <LoadingComponent :isLoading="isLoading" />
 
-        <div v-if="movies.length > 0 && !isLoading" class="movies__grid">
+        <div v-if="validMovies.length > 0 && !isLoading" class="movies__grid">
             <RouterLink
-                v-for="movie in movies"
+                v-for="movie in validMovies"
                 :key="movie.filmId || movie.kinopoiskId"
                 :to="`/film/${movie.filmId || movie.kinopoiskId}`"
                 class="movie-card"
             >
-                <div class="movie-card__poster" v-if="movie.filmId || movie.kinopoiskId">
+                <div class="movie-card__poster">
                     <img
                         :src="movie.posterUrl"
                         :alt="movie.nameRu"
                         class="movie-card__img"
                         loading="lazy"
+                        @error="handleImageError(movie.filmId || movie.kinopoiskId)"
                     />
                     <div
                         v-if="movie.rating || (movie.ratingKinopoisk && movie.rating !== 'null')"
@@ -44,11 +76,16 @@ const { movies, isLoading, totalPages, currentPage, changePageCount } = useMovie
             </RouterLink>
         </div>
 
-        <div v-else-if="movies.length === 0 && searchValue" class="movies__empty">
+        <div
+            v-else-if="
+                (movies.length === 0 || validMovies.length === 0) && searchValue && !isLoading
+            "
+            class="movies__empty"
+        >
             <p>По вашему запросу ничего не найдено 🍿</p>
         </div>
 
-        <div class="pagination" v-if="totalPages && movies.length > 0 && !isLoading">
+        <div class="pagination" v-if="totalPages && validMovies.length > 0 && !isLoading">
             <div class="button__row">
                 <button
                     :disabled="currentPage <= 1"

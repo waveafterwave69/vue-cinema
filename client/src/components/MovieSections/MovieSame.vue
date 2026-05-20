@@ -3,7 +3,7 @@ import { moviesApi } from '@/services/movies'
 import type { MovieFullInfo } from '@/types/movies'
 import SwiperComponent from '@/UI/Swiper/SwiperComponent.vue'
 import { SwiperSlide } from 'swiper/vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
 interface Props {
@@ -27,6 +27,8 @@ const currentPage = ref(1)
 const isLoading = ref(false)
 const isEnd = ref(false)
 
+const failedMovieIds = ref<number[]>([])
+
 const fetchMovies = async () => {
     if (isLoading.value || isEnd.value) return
 
@@ -47,18 +49,26 @@ const fetchMovies = async () => {
     }
 }
 
+const validSameMovies = computed(() => {
+    return sameMovies.value.filter((movie) => {
+        return movie.posterUrl && movie.filmId && !failedMovieIds.value.includes(movie.filmId)
+    })
+})
+
+const handleImageError = (id: number) => {
+    if (id && !failedMovieIds.value.includes(id)) {
+        failedMovieIds.value.push(id)
+    }
+}
+
 onMounted(fetchMovies)
 </script>
 
 <template>
-    <section class="same" v-if="sameMovies.length > 0">
+    <section class="same" v-if="validSameMovies.length > 0">
         <div class="container">
-            <SwiperComponent
-                v-if="sameMovies.length"
-                swiperTitle="Похожие фильмы"
-                @loadMore="fetchMovies"
-            >
-                <SwiperSlide v-for="movie in sameMovies" :key="movie.filmId">
+            <SwiperComponent swiperTitle="Похожие фильмы" @loadMore="fetchMovies">
+                <SwiperSlide v-for="movie in validSameMovies" :key="movie.filmId">
                     <RouterLink :to="`/film/${movie.filmId}`">
                         <div class="movie__poster">
                             <img
@@ -66,6 +76,7 @@ onMounted(fetchMovies)
                                 :alt="movie.nameRu"
                                 class="card__img"
                                 loading="lazy"
+                                @error="handleImageError(movie.filmId)"
                             />
                         </div>
                     </RouterLink>

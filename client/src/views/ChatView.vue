@@ -1,96 +1,55 @@
 <script setup lang="ts">
-import { ref, onUnmounted, nextTick } from 'vue'
+import { ref } from 'vue'
+import { motion } from 'motion-v'
+import { useChatStore } from '@/stores/chat'
+import { storeToRefs } from 'pinia'
 
-interface ChatMessage {
-    event: 'message' | 'connection'
-    username: string
-    text: string
-}
+const chatStore = useChatStore()
+const { username, isConnected, messages } = storeToRefs(chatStore)
 
-const username = ref<string>('')
-const isConnected = ref<boolean>(false)
 const messageText = ref<string>('')
-const messages = ref<ChatMessage[]>([])
-
 const chatWindow = ref<HTMLDivElement | null>(null)
 
-let socket: WebSocket | null = null
-
-const connectToChat = (): void => {
-    if (!username.value.trim()) return
-
-    socket = new WebSocket('ws://localhost:8000')
-
-    socket.onopen = () => {
-        isConnected.value = true
-
-        const joinMessage: ChatMessage = {
-            event: 'connection',
-            username: username.value,
-            text: `присоединился к чату`,
-        }
-        socket?.send(JSON.stringify(joinMessage))
-    }
-
-    socket.onmessage = async (event: MessageEvent) => {
-        try {
-            const incomingData: ChatMessage = JSON.parse(event.data)
-            messages.value.push(incomingData)
-
-            await nextTick()
-            if (chatWindow.value) {
-                chatWindow.value.scrollTo({
-                    top: chatWindow.value.scrollHeight,
-                    behavior: 'smooth',
-                })
-            }
-        } catch (error) {
-            console.error('Ошибка обработки сообщения от сервера:', error)
-        }
-    }
-
-    socket.onclose = () => {
-        isConnected.value = false
-        console.log('Соединение разорвано')
-    }
+const handleConnect = (): void => {
+    chatStore.connectToChat(chatWindow)
 }
 
-const sendMessage = (): void => {
+const handleSend = (): void => {
     const text = messageText.value.trim()
-    if (!text || !socket || socket.readyState !== WebSocket.OPEN) return
-
-    const chatMessage: ChatMessage = {
-        event: 'message',
-        username: username.value,
-        text: text,
-    }
-
-    socket.send(JSON.stringify(chatMessage))
-    messageText.value = '' // Очищаем поле
+    if (!text) return
+    chatStore.sendMessage(text)
+    messageText.value = ''
 }
-
-onUnmounted(() => {
-    if (socket) socket.close()
-})
 </script>
 
 <template>
-    <div class="container">
-        <h2>CHAAAT</h2>
+    <div class="container chat-container">
+        <motion.div
+            v-if="!isConnected"
+            :initial="{ opacity: 0, y: 20 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.3 }"
+            class="chat__form"
+        >
+            <h2 class="chat__title">Войти в глобальный чат</h2>
+            <p class="chat__subtitle">Введите никнейм, который будут видеть другие люди</p>
+            <div class="auth-group">
+                <input
+                    v-model="username"
+                    type="text"
+                    placeholder="Введите ваше имя..."
+                    maxlength="25"
+                    @keyup.enter="handleConnect"
+                />
+                <button class="button-default" @click="handleConnect">Войти</button>
+            </div>
+        </motion.div>
 
-        <!-- Шаг 1: Авторизация по имени -->
-        <div v-if="!isConnected" class="login-form">
-            <input
-                v-model="username"
-                type="text"
-                placeholder="Введите ваше имя..."
-                @keyup.enter="connectToChat"
-            />
-            <button @click="connectToChat">Войти</button>
-        </div>
-
-        <!-- Шаг 2: Окно чата -->
         <div v-else class="chat-room">
+            <div class="chat-room__header">
+                <h3 class="chat-room__title">Глобальный чат</h3>
+            </div>
+
             <div ref="chatWindow" class="chat-window">
                 <div
                     v-for="(msg, index) in messages"
@@ -102,140 +61,430 @@ onUnmounted(() => {
                         'other-msg': msg.event === 'message' && msg.username !== username,
                     }"
                 >
-                    <!-- Рендер системного входа -->
                     <span v-if="msg.event === 'connection'" class="system-text">
-                        ℹ️ <strong>{{ msg.username }}</strong> {{ msg.text }}
+                        <strong>{{ msg.username }}</strong> {{ msg.text }}
                     </span>
 
-                    <!-- Рендер обычного сообщения -->
                     <div v-else class="user-text">
-                        <strong class="author-name">{{ msg.username }}:</strong> {{ msg.text }}
+                        <strong class="author-name">{{ msg.username }}</strong>
+                        <p class="message-text-content">{{ msg.text }}</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Форма отправки сообщения -->
             <div class="input-panel">
                 <input
                     v-model="messageText"
                     type="text"
                     placeholder="Напишите сообщение..."
-                    @keyup.enter="sendMessage"
+                    maxlength="1000"
+                    @keyup.enter="handleSend"
                 />
-                <button @click="sendMessage">Отправить</button>
+                <button
+                    class="button-glass send-btn"
+                    :disabled="!messageText.trim()"
+                    @click="handleSend"
+                >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-.container {
-    max-width: 500px;
-    margin: 40px auto;
-    font-family:
-        system-ui,
-        -apple-system,
-        sans-serif;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-    background: #ffffff;
-}
-
-h2 {
-    margin-top: 0;
-    color: #2c3e50;
-    text-align: center;
-    font-size: 1.5rem;
-    letter-spacing: 1px;
-}
-
-.login-form,
-.input-panel {
+.chat-container {
     display: flex;
-    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
 }
 
-input {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    outline: none;
+.chat__form {
+    width: 100%;
+    max-width: 700px;
+    padding: 50px 40px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+}
+
+.chat__title {
+    font-size: 32px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    margin: 0 0 8px 0;
+    color: var(--color-main);
+}
+
+.chat__subtitle {
     font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0 0 32px 0;
 }
 
-input:focus {
-    border-color: #42b883;
+.auth-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 340px;
+    margin: 0 auto;
 }
 
-button {
-    padding: 12px 20px;
-    background-color: #42b883;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s;
+input[type='text'] {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
-button:hover {
-    background-color: #35495e;
+input[type='text']:focus {
+    border-color: var(--color-main);
+}
+
+.chat-room {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 860px;
+    height: 700px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+}
+
+.chat-room__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.chat-room__title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .chat-window {
-    height: 350px;
-    border: 1px solid #f0f2f5;
-    border-radius: 8px;
-    background: #f8f9fa;
+    flex: 1;
+    padding: 24px;
     overflow-y: auto;
-    padding: 15px;
-    margin: 20px 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 16px;
+}
+
+.chat-window::-webkit-scrollbar {
+    width: 6px;
+}
+.chat-window::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
 }
 
 .message-block {
-    padding: 10px 14px;
-    border-radius: 8px;
+    display: flex;
     max-width: 75%;
-    width: fit-content;
-    font-size: 14px;
-    line-height: 1.4;
+    border-radius: 12px;
+    padding: 12px 16px;
 }
 
-/* Системные уведомления по центру */
 .system-msg {
-    background: #e8f4ff;
-    color: #1890ff;
     align-self: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    max-width: 90%;
+    padding: 6px 16px;
+    border-radius: 20px;
+}
+
+.system-text {
     font-size: 13px;
-    border: 1px solid #bae7ff;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
 }
 
-/* Чужие сообщения (слева, белые) */
-.other-msg {
-    background: #ffffff;
-    border: 1px solid #e8e8e8;
-    align-self: flex-start;
-    color: #333333;
-}
-
-/* Ваши собственные сообщения (справа, зеленые) */
 .my-msg {
-    background: #42b883;
-    color: white;
     align-self: flex-end;
+    background: var(--color-main);
+    color: #0b0f19;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
+}
+
+.my-msg .author-name {
+    color: rgba(11, 15, 25, 0.7);
+}
+
+.other-msg {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.other-msg .author-name {
+    color: var(--color-main);
+}
+
+.user-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
 }
 
 .author-name {
-    display: block;
-    font-size: 12px;
-    margin-bottom: 2px;
-    color: inherit;
-    opacity: 0.8;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    font-weight: 700;
+}
+
+.message-text-content {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.input-panel {
+    display: flex;
+    gap: 12px;
+    padding: 16px 24px;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.send-btn {
+    padding: 0;
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    padding-top: 5px;
+}
+
+@media (max-width: 1440px) {
+    .chat-container {
+        margin-top: 30px;
+    }
+
+    .chat__form {
+        max-width: 700px;
+        padding: 50px 40px;
+    }
+
+    .chat__title {
+        font-size: 32px;
+        letter-spacing: -0.5px;
+        margin: 0 0 8px 0;
+    }
+
+    .chat__subtitle {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.6);
+        margin: 0 0 32px 0;
+    }
+
+    .auth-group {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .chat-room {
+        width: 100%;
+        max-width: 860px;
+        height: 700px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .chat-room__header {
+        gap: 12px;
+        padding: 20px 24px;
+        background: rgba(255, 255, 255, 0.02);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .chat-room__title {
+        font-size: 18px;
+    }
+
+    .chat-window {
+        padding: 18px;
+        gap: 12px;
+    }
+
+    .chat-window::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .message-block {
+        display: flex;
+        max-width: 75%;
+        border-radius: 12px;
+        padding: 12px 16px;
+    }
+
+    .system-msg {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        max-width: 90%;
+        padding: 6px 16px;
+    }
+
+    .system-text {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.5);
+        text-align: center;
+    }
+
+    .my-msg {
+        background: var(--color-main);
+        color: var(--color-bg2);
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
+    }
+
+    .user-text {
+        gap: 4px;
+        width: 100%;
+    }
+
+    .author-name {
+        font-size: 11px;
+    }
+
+    .message-text-content {
+        font-size: 15px;
+    }
+
+    .input-panel {
+        gap: 12px;
+        padding: 16px 24px;
+    }
+
+    .send-btn {
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .chat-container {
+        margin-top: 20px;
+    }
+
+    .chat__form {
+        max-width: 700px;
+        padding: 50px 40px;
+    }
+
+    .chat__title {
+        font-size: 24px;
+        margin: 0 0 8px 0;
+    }
+
+    .chat__subtitle {
+        font-size: 14px;
+        margin: 0 0 30px 0;
+    }
+
+    .auth-group {
+        gap: 12px;
+    }
+
+    .chat-room {
+        width: 100%;
+        max-width: 860px;
+    }
+
+    .chat-room__header {
+        gap: 12px;
+        padding: 14px 22px;
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .chat-room__title {
+        font-size: 18px;
+    }
+
+    .chat-window {
+        padding: 16px;
+        gap: 10px;
+    }
+
+    .message-block {
+        display: flex;
+        max-width: 75%;
+        border-radius: 12px;
+        padding: 10px 14px;
+    }
+
+    .system-msg {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        max-width: 90%;
+        padding: 6px 16px;
+    }
+
+    .system-text {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.5);
+        text-align: center;
+    }
+
+    .user-text {
+        gap: 4px;
+        width: 100%;
+    }
+
+    .author-name {
+        font-size: 11px;
+    }
+
+    .message-text-content {
+        font-size: 15px;
+    }
+
+    .input-panel {
+        gap: 8px;
+        padding: 12px 16px;
+    }
+
+    .input-panel input {
+        padding: 10px 16px;
+    }
+
+    .send-btn {
+        width: 45px;
+        height: 45px;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 425px) {
+    .chat-room {
+        height: calc(100vh - 180px);
+        border-radius: 12px;
+    }
 }
 </style>

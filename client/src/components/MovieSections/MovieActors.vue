@@ -4,7 +4,7 @@ import type { Actor } from '@/types/actors'
 import type { MovieFullInfo } from '@/types/movies'
 import SwiperComponent from '@/UI/Swiper/SwiperComponent.vue'
 import { SwiperSlide } from 'swiper/vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
 interface Props {
@@ -17,6 +17,8 @@ const actors = ref<Actor[]>([])
 const currentPage = ref(1)
 const isLoading = ref(false)
 const isEnd = ref(false)
+
+const failedActorIds = ref<number[]>([])
 
 const fetchMovies = async () => {
     if (isLoading.value || isEnd.value) return
@@ -38,6 +40,18 @@ const fetchMovies = async () => {
     }
 }
 
+const validActors = computed(() => {
+    return actors.value.filter((actor) => {
+        return actor.posterUrl && actor.staffId && !failedActorIds.value.includes(actor.staffId)
+    })
+})
+
+const handleImageError = (id: number) => {
+    if (id && !failedActorIds.value.includes(id)) {
+        failedActorIds.value.push(id)
+    }
+}
+
 onMounted(fetchMovies)
 </script>
 
@@ -48,11 +62,11 @@ onMounted(fetchMovies)
                 :slidesPerView="7"
                 :slidesPerViewMedium="6"
                 :slidesPerViewSmall="4"
-                v-if="actors.length"
+                v-if="validActors.length"
                 swiperTitle="Актёры"
                 @loadMore="fetchMovies"
             >
-                <SwiperSlide v-for="actor in actors" :key="actor.staffId">
+                <SwiperSlide v-for="actor in validActors" :key="actor.staffId">
                     <RouterLink :to="`/name/${actor.staffId}`">
                         <div class="actor__poster">
                             <img
@@ -60,6 +74,7 @@ onMounted(fetchMovies)
                                 :alt="actor.nameRu"
                                 class="card__img"
                                 loading="lazy"
+                                @error="handleImageError(actor.staffId)"
                             />
                             <p class="actor__name">{{ actor.nameRu }}</p>
                         </div>
