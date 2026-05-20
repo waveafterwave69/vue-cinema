@@ -1,0 +1,140 @@
+a,
+button,
+label,
+input,
+textarea,
+select,
+svg * {
+    transition-duration: var(--transition-duration);
+}
+
+body {
+    font-family: var(--font-text);
+    color: var(--color-main);
+    background: radial-gradient(circle, #212122 0%, #121213 100%);
+    font-size: 17px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-title);
+}
+
+h2 {
+    font-size: 42px;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.card {
+    background-color: var(--color-bg2);
+    padding: 50px 0px;
+}
+
+.button-default {
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: none;
+    background: var(--color-main);
+    color: var(--color-bg2);
+}
+
+.button:hover {
+    background: #e2e2e2;
+}
+
+.button-glass {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--color-main);
+    backdrop-filter: blur(10px);
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.button-glass:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.container {
+    max-width: var(--container-width);
+    padding: 0 var(--container-padding-x);
+    margin: 0 auto;
+}
+
+:focus-visible,
+a:focus-visible {
+    outline: auto;
+}
+
+@media (max-width: 1440px) {
+    .button-default,
+    .button-glass {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+
+    h2 {
+        font-size: 38px;
+    }
+
+    h3 {
+        font-size: 28px;
+    }
+
+    .card {
+        padding: 40px 0px;
+    }
+}
+
+@media (max-width: 768px) {
+    .button-default,
+    .button-glass {
+        padding: 10px 25px;
+        font-size: 15px;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+
+    .card {
+        padding: 35px 0px;
+    }
+}
+
+@media (max-width: 425px) {
+    .container {
+        padding: 0 var(--container-padding-mobile-x);
+    }
+
+    h2 {
+        font-size: 26px;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    .card {
+        padding: 30px 0px;
+    }
+}
