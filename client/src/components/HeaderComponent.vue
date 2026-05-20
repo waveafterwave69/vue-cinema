@@ -32,6 +32,11 @@ const isMenuOpen = ref(false)
                                 >Новости</RouterLink
                             >
                         </li>
+                        <button>
+                            <RouterLink to="/chat" class="button__item button-search">
+                                <img src="../img/chat.png" class="button__img" alt="" />
+                            </RouterLink>
+                        </button>
                     </ul>
                 </nav>
             </div>
