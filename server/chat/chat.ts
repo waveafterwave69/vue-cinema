@@ -1,8 +1,10 @@
 import { WebSocketServer, WebSocket } from 'ws'
 import { type ChatMessage } from './types.ts'
 
-const wss = new WebSocketServer({ port: 8000 }, () =>
-    console.log('🚀 WebSocket-сервер успешно запущен на порту 8000'),
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8000
+
+const wss = new WebSocketServer({ port: PORT }, () =>
+    console.log(`🚀 WebSocket-сервер успешно запущен на порту ${PORT}`),
 )
 
 wss.on('connection', (ws: WebSocket) => {

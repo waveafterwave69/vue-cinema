@@ -16,7 +16,7 @@ export const useChatStore = defineStore('chat', () => {
     const connectToChat = (chatWindowRef: Ref): void => {
         if (!username.value.trim() || isConnected.value) return
 
-        socket = new WebSocket('ws://localhost:8000')
+        socket = new WebSocket('wss://vue-cinema.onrender.com')
 
         socket.onopen = () => {
             isConnected.value = true
