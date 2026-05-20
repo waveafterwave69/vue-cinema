@@ -64,11 +64,19 @@ export const useChatStore = defineStore('chat', () => {
         socket.send(JSON.stringify(chatMessage))
     }
 
+    const disconnect = () => {
+        if (socket) {
+            socket.close()
+        }
+        messages.value = []
+    }
+
     return {
         username,
         isConnected,
         messages,
         connectToChat,
         sendMessage,
+        disconnect,
     }
 })

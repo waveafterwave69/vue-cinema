@@ -20,6 +20,10 @@ const handleSend = (): void => {
     chatStore.sendMessage(text)
     messageText.value = ''
 }
+
+const handleDisconnect = () => {
+    chatStore.disconnect()
+}
 </script>
 
 <template>
@@ -48,6 +52,22 @@ const handleSend = (): void => {
         <div v-else class="chat-room">
             <div class="chat-room__header">
                 <h3 class="chat-room__title">Глобальный чат</h3>
+                <button class="chat-room__button" @click="handleDisconnect">
+                    <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </button>
             </div>
 
             <div ref="chatWindow" class="chat-window">
@@ -99,7 +119,7 @@ const handleSend = (): void => {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .chat__form {
@@ -157,7 +177,7 @@ input[type='text']:focus {
     flex-direction: column;
     width: 100%;
     max-width: 860px;
-    height: 700px;
+    height: 680px;
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
@@ -168,10 +188,15 @@ input[type='text']:focus {
 .chat-room__header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
     padding: 20px 24px;
     background: rgba(255, 255, 255, 0.02);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.chat-room__button {
+    padding-top: 5px;
 }
 
 .chat-room__title {
@@ -282,7 +307,7 @@ input[type='text']:focus {
 
 @media (max-width: 1440px) {
     .chat-container {
-        margin-top: 30px;
+        margin-top: 20px;
     }
 
     .chat__form {

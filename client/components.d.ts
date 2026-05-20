@@ -13,6 +13,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     ActorMovies: typeof import('./src/components/ActorSections/ActorMovies.vue')['default']
     ActorPromo: typeof import('./src/components/ActorSections/ActorPromo.vue')['default']
+    BurgerMenu: typeof import('./src/components/BurgerMenu.vue')['default']
     Categories: typeof import('./src/components/Categories.vue')['default']
     CategoriesComponent: typeof import('./src/components/CategoriesComponent.vue')['default']
     HeaderComponent: typeof import('./src/components/HeaderComponent.vue')['default']

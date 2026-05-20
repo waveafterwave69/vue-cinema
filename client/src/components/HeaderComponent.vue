@@ -2,6 +2,7 @@
 import { RouterLink } from 'vue-router'
 import { motion } from 'motion-v'
 import { ref } from 'vue'
+import BurgerMenu from './BurgerMenu.vue'
 
 const isMenuOpen = ref(false)
 </script>
@@ -32,11 +33,6 @@ const isMenuOpen = ref(false)
                                 >Новости</RouterLink
                             >
                         </li>
-                        <button>
-                            <RouterLink to="/chat" class="button__item button-search">
-                                <img src="../img/chat.png" class="button__img" alt="" />
-                            </RouterLink>
-                        </button>
                     </ul>
                 </nav>
             </div>
@@ -72,6 +68,7 @@ const isMenuOpen = ref(false)
                 <span></span>
                 <span></span>
             </button>
+            <BurgerMenu :isOpen="isMenuOpen" @close="isMenuOpen = false" />
         </motion.header>
     </div>
 </template>
