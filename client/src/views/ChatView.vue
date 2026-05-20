@@ -5,7 +5,7 @@ import { useChatStore } from '@/stores/chat'
 import { storeToRefs } from 'pinia'
 
 const chatStore = useChatStore()
-const { username, isConnected, messages } = storeToRefs(chatStore)
+const { username, isConnected, isLoading, messages } = storeToRefs(chatStore)
 
 const messageText = ref<string>('')
 const chatWindow = ref<HTMLDivElement | null>(null)
@@ -43,9 +43,16 @@ const handleDisconnect = () => {
                     type="text"
                     placeholder="Введите ваше имя..."
                     maxlength="25"
+                    :disabled="isLoading"
                     @keyup.enter="handleConnect"
                 />
-                <button class="button-default" @click="handleConnect">Войти</button>
+                <button
+                    class="button-default btn-connect"
+                    :disabled="isLoading"
+                    @click="handleConnect"
+                >
+                    <span>Войти</span>
+                </button>
             </div>
         </motion.div>
 
@@ -504,6 +511,12 @@ input[type='text']:focus {
         height: 45px;
         flex-shrink: 0;
     }
+}
+
+input:disabled,
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 @media (max-width: 425px) {
