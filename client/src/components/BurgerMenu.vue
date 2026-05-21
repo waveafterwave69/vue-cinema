@@ -133,10 +133,10 @@ onUnmounted(() => {
 <style scoped>
 .burger-menu {
     position: fixed;
-    top: 0 !important;
+    top: -20px !important;
     right: 0 !important;
     bottom: 0 !important;
-    left: 0 !important;
+    left: -20px !important;
     width: 100vw;
     height: 100vh;
     z-index: 9999;
@@ -170,8 +170,8 @@ onUnmounted(() => {
 
 .burger-menu__close-btn {
     position: absolute;
-    top: 16px;
-    right: 20px;
+    top: 30px;
+    right: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
